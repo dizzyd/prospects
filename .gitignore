@@ -1,0 +1,7 @@
+.gradle
+bin/
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
+build
+gradle
