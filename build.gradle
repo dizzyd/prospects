@@ -16,7 +16,6 @@ buildscript {
 }
 
 apply plugin: 'forge'
-apply plugin: 'idea'
 
 version = "0.0.1"
 group= "azathoth.util.prospecting"
@@ -25,14 +24,6 @@ archivesBaseName = "Prospecting"
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
     runDir = "run"
-}
-
-idea { module { inheritOutputDirs = true } }
-
-repositories {
-    flatDir {
-		dirs 'lib'
-	}
 }
 
 processResources
