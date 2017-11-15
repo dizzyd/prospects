@@ -15,7 +15,7 @@ public class SifterItem extends ProspectingItem {
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitx, float hity, float hitz) {
 		Block b = world.getBlock(x, y, z);
-		if (b.equals(Blocks.dirt) || b.equals(Blocks.gravel) || b.equals(Blocks.grass)) {
+		if (b.equals(Blocks.dirt) || b.equals(Blocks.gravel)) {
 			super.doProspect(player, world, x, y, z);
 			return true;
 		}

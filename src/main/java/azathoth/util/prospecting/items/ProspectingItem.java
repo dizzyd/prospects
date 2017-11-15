@@ -16,7 +16,7 @@ public abstract class ProspectingItem extends Item {
 	
 	protected void doProspect(EntityPlayer player, World world, int x, int y, int z) {
 		if (!world.isRemote) {
-			Prospecting.logger.info("Prospecting...");
+			Prospecting.logger.debug("Prospecting...");
 			Prospector.spawnNugget(world, x, y, z);
 		}
 	}

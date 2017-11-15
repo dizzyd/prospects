@@ -42,6 +42,7 @@ public class Prospector {
 
 	public static void register(World world, int x, int z) {
 		if (!registry.containsKey(world.provider.dimensionId)) {
+			Prospecting.logger.debug("No ProspectingSavedData found for dimension " + world.provider.dimensionId +", loading...");
 			registry.put(world.provider.dimensionId, loadOrCreateData(world));
 		}
 
@@ -52,8 +53,11 @@ public class Prospector {
 		ProspectingSavedData data = (ProspectingSavedData) world.perWorldStorage.loadData(ProspectingSavedData.class, IDENTIFIER);
 
 		if (data == null) {
+			Prospecting.logger.debug("No saved data found in world file, creating...");
 			data = new ProspectingSavedData(world, IDENTIFIER);
 			world.perWorldStorage.setData(IDENTIFIER, data);
+		} else {
+			data.setWorld(world);
 		}
 
 		return data;

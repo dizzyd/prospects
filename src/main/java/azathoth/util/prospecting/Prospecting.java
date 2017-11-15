@@ -1,5 +1,6 @@
 package azathoth.util.prospecting;
 
+import azathoth.util.prospecting.config.ProspectingConfiguration;
 import azathoth.util.prospecting.items.ProspectingItems;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
@@ -15,6 +16,8 @@ public class Prospecting {
 	public static final String NAME = "Prospecting";
 	public static final String VERSION = "0.0.1";
 
+	public static ProspectingConfiguration config;
+
 	@Instance(MODID)
 	public static Prospecting instance;
 	
@@ -23,5 +26,6 @@ public class Prospecting {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ProspectingItems.init();
+		this.config = new ProspectingConfiguration(event);
 	}
 }
