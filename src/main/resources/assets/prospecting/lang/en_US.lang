@@ -1,3 +1,18 @@
 item.prospecting_pan.name=Gold Pan
 item.prospecting_pick.name=Prospecting Pick
 item.sifting_pan.name=Sifting Pan
+
+tile.Affine.name=Affine
+tile.Camellia.name=Camellia
+tile.RedClover.name=Red Clover
+tile.Hauman.name=Hauman
+tile.Horsetail.name=Horsetail
+tile.Leadplant.name=Leadplant
+tile.Malva.name=Malva
+tile.IndianMustard.name=Indian Mustard
+tile.Poorjoe.name=Poorjoe
+tile.Primrose.name=Primrose
+tile.ShrubViolet.name=Shrub Violet
+tile.Vallozia.name=Vallozia
+tile.FlameLily.name=Flame Lily
+tile.Tansy.name=Tansy

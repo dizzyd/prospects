@@ -2,10 +2,12 @@ package azathoth.util.prospecting.registry;
 
 import azathoth.util.prospecting.Prospecting;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -16,24 +18,24 @@ import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ProspectingSavedData extends WorldSavedData {
-	private HashMap<List<Integer>, HashMap<String, Integer>> chunks; // [x, z]: { "ore": amt }
+	private HashMap<List<Integer>, HashMap<String, Float>> chunks; // [cx, cz]: { "ore": amt }
 	private HashMap<List<Integer>, Long> expiry;
-	private HashMap<List<Integer>, Integer> nuggets;
+	private HashMap<List<Integer>, HashMap<String, Integer>> nuggets;
 	private World world;
 
 	public ProspectingSavedData(World world, String tag) {
 		super(tag);
 		this.world  = world;
-		this.chunks = new HashMap<List<Integer>, HashMap<String, Integer>>();
+		this.chunks = new HashMap<List<Integer>, HashMap<String, Float>>();
 		this.expiry = new HashMap<List<Integer>, Long>();
-		this.nuggets = new HashMap<List<Integer>, Integer>();
+		this.nuggets = new HashMap<List<Integer>, HashMap<String, Integer>>();
 	}
 
 	public ProspectingSavedData(String tag) {
 		super(tag);
-		this.chunks = new HashMap<List<Integer>, HashMap<String, Integer>>();
+		this.chunks = new HashMap<List<Integer>, HashMap<String, Float>>();
 		this.expiry = new HashMap<List<Integer>, Long>();
-		this.nuggets = new HashMap<List<Integer>, Integer>();
+		this.nuggets = new HashMap<List<Integer>, HashMap<String, Integer>>();
 	}
 
 	public void setWorld(World world) {
@@ -43,24 +45,29 @@ public class ProspectingSavedData extends WorldSavedData {
 	@Override
 	public void readFromNBT(NBTTagCompound t) {
 		Prospecting.logger.debug("Reading from NBT...");
-		this.chunks = new HashMap<List<Integer>, HashMap<String, Integer>>();
+		this.chunks = new HashMap<List<Integer>, HashMap<String, Float>>();
 		this.expiry = new HashMap<List<Integer>, Long>();
-		this.nuggets = new HashMap<List<Integer>, Integer>();
+		this.nuggets = new HashMap<List<Integer>, HashMap<String, Integer>>();
 
 		for (Object x : t.func_150296_c()) {
 			for (Object z : t.getCompoundTag((String) x).func_150296_c()) {
 				List<Integer> chunk = Arrays.asList(Integer.valueOf((String) x), Integer.valueOf((String) z));
 
-				HashMap<String, Integer> ores = new HashMap<String, Integer>();
+				HashMap<String, Float> ores = new HashMap<String, Float>();
 				for (Object ore : t.getCompoundTag((String) x).getCompoundTag((String) z).func_150296_c()) {
 					if (!((String) ore).equals("expiry") && !((String) ore).equals("nuggets")) {
-						ores.put((String) ore, t.getCompoundTag((String) x).getCompoundTag((String) z).getInteger((String) ore));
+						ores.put((String) ore, t.getCompoundTag((String) x).getCompoundTag((String) z).getFloat((String) ore));
 					}
+				}
+
+				HashMap<String, Integer> nug_list = new HashMap<String, Integer>();
+				for (Object ore : t.getCompoundTag((String) x).getCompoundTag((String) z).getCompoundTag("nuggets").func_150296_c()) {
+					nug_list.put((String) ore, t.getCompoundTag((String) x).getCompoundTag((String) z).getCompoundTag("nuggets").getInteger((String) ore));
 				}
 
 				this.chunks.put(chunk, ores);
 				this.expiry.put(chunk, t.getCompoundTag((String) x).getCompoundTag((String) z).getLong("expiry"));
-				this.nuggets.put(chunk, t.getCompoundTag((String) x).getCompoundTag((String) z).getInteger("nuggets"));
+				this.nuggets.put(chunk, nug_list);
 			}
 		}
 	}
@@ -68,61 +75,73 @@ public class ProspectingSavedData extends WorldSavedData {
 	@Override
 	public void writeToNBT(NBTTagCompound t) {
 		Prospecting.logger.debug("Writing to NBT...");
-		for (Map.Entry<List<Integer>, HashMap<String, Integer>> chunk : this.chunks.entrySet()) {
-			int x = chunk.getKey().get(0);
-			int z = chunk.getKey().get(1);
+		for (Map.Entry<List<Integer>, HashMap<String, Float>> chunk : this.chunks.entrySet()) {
+			int cx = chunk.getKey().get(0);
+			int cz = chunk.getKey().get(1);
 
 			Prospecting.logger.debug("Writing chunk " + chunk.getKey().toString() + "...");
 
 			NBTTagCompound x_tag = new NBTTagCompound();
 			NBTTagCompound z_tag = new NBTTagCompound();
+			NBTTagCompound nug_tag = new NBTTagCompound();
 
-			for (Map.Entry<String, Integer> ore : chunk.getValue().entrySet()) {
-				z_tag.setInteger(ore.getKey(), ore.getValue());
+			for (Map.Entry<String, Float> ore : chunk.getValue().entrySet()) {
+				z_tag.setFloat(ore.getKey(), ore.getValue());
 			}
-			Prospecting.logger.debug("Cooldown: " + this.expiry.get(chunk.getKey()));
-			Prospecting.logger.debug("Nuggets: " + this.nuggets.get(chunk.getKey()));
-			z_tag.setLong("expiry", this.expiry.get(chunk.getKey()));
-			z_tag.setInteger("nuggets", this.nuggets.get(chunk.getKey()));
 
-			x_tag.setTag(Integer.toString(z), z_tag);
-			t.setTag(Integer.toString(x), x_tag);
+			for (Map.Entry<String, Integer> ore : nuggets.get(chunk.getKey()).entrySet()) {
+				nug_tag.setInteger(ore.getKey(), ore.getValue());
+			}
+
+			// Prospecting.logger.debug("Cooldown: " + this.expiry.get(chunk.getKey()));
+			// Prospecting.logger.debug("Nuggets: " + this.nuggets.get(chunk.getKey()));
+			z_tag.setLong("expiry", this.expiry.get(chunk.getKey()));
+			z_tag.setTag("nuggets", nug_tag);
+
+			x_tag.setTag(Integer.toString(cz), z_tag);
+			t.setTag(Integer.toString(cx), x_tag);
 		}
 	}
 
-	public boolean hasChunk(int x, int z) {
+	public boolean hasChunk(int cx, int cz) {
 		try {
-			 return this.chunks.get(Arrays.asList(x, z)) != null;
+			 return this.chunks.get(Arrays.asList(cx, cz)) != null;
 		} catch (NullPointerException e) {
 			return false;
 		}
 	}
 
-	public boolean isStale(int x, int z) {
+	public boolean isStale(int cx, int cz) {
 		try {
-			return !hasChunk(x, z) || world.getWorldTime() > this.expiry.get(Arrays.asList(x, z));
+			return !hasChunk(cx, cz) || world.getWorldTime() > this.expiry.get(Arrays.asList(cx, cz));
 		} catch (NullPointerException e) {
 			return true;
 		}
 	}
 
-	public boolean hasNuggets(int x, int z) {
+	public boolean hasNuggets(int cx, int cz) {
 		try  {
-			return this.nuggets.get(Arrays.asList(x, z)) > 0;
+			for (Map.Entry<String, Integer> ore : this.nuggets.get(Arrays.asList(cx, cz)).entrySet()) {
+				if (ore.getValue() > 0)
+					return true;
+			}
+			return false;
 		} catch (NullPointerException e) {
 			return false;
 		}
 	}
-	
-	public void scanChunk(int x, int z) {
+
+	public void scanChunk(int cx, int cz) {
 		Block b;
-		HashMap<String, Integer> ores = new HashMap<String, Integer>();
+		HashMap<String, Float> ores = new HashMap<String, Float>();
 		int total = 0;
-		List<Integer> chunk = Arrays.asList(x, z);
+		List<Integer> chunk = Arrays.asList(cx, cz);
+		int x = cx << 4;
+		int z = cz << 4;
 
 
-		if (isStale(x, z)) {
-			Prospecting.logger.debug("Scanning chunk [" + x + ", " + z + "]...");
+		if (isStale(cx, cz)) {
+			Prospecting.logger.debug("Scanning chunk [" + cx + ", " + cz + "]...");
 			for (int i = 1; i <= 256; i++) {
 				for (int j = 0; j < 16; j++) {
 					for (int k = 0; k < 16; k++) {
@@ -130,7 +149,7 @@ public class ProspectingSavedData extends WorldSavedData {
 						if (!b.equals(Blocks.air)) {
 							String name = OreDictCache.getOreName(b, b.getDamageValue(world, x + j , i, z + k));
 							if (name != null) {
-								int amt = 1;
+								float amt = OreDictCache.getOreValue(b, b.getDamageValue(world, x + j, i, z + k));
 								if (ores.containsKey(name)) {
 									amt += ores.remove(name);
 								}
@@ -148,65 +167,108 @@ public class ProspectingSavedData extends WorldSavedData {
 
 			this.chunks.put(chunk, ores);
 			this.expiry.put(chunk, world.getWorldTime() + (20 * Prospecting.config.chunk_expiry));
-			int nugget_amount = (Prospecting.config.nugget_chance > ThreadLocalRandom.current().nextDouble(1)) ? Prospecting.config.nugget_amount : 0;
+
 			if (!this.nuggets.containsKey(chunk)) {
-				this.nuggets.put(chunk, ores.size() == 0 ? 0 : nugget_amount);
-			}
-
-			markDirty();
-		}
-	}
-
-	// gets a nugget for chunk <x, z> and decrements that chunk's nugget count
-	public ItemStack getNugget(int x, int z) {
-		scanChunk(x, z); // make sure we're dealing with an initialized chunk
-		logChunk(x, z);
-
-		Prospecting.logger.debug("Getting nugget...");
-		if (hasNuggets(x, z)) {
-			Prospecting.logger.debug("Chunk has nuggets.");
-			List<Integer> chunk = Arrays.asList(x, z);
-			Prospecting.logger.debug("Amount: " + this.nuggets.get(chunk));
-
-			int total = 0;
-			for (Map.Entry<String, Integer> o : this.chunks.get(chunk).entrySet()) {
-				total += o.getValue();
-			}
-
-			int r = ThreadLocalRandom.current().nextInt(0, total + 1);
-			int c = 0;
-			ItemStack nugget = null;
-			for (Map.Entry<String, Integer> o : this.chunks.get(chunk).entrySet()) {
-				c += o.getValue();
-				if (c >= r) {
-					List<ItemStack> nugs = OreDictionary.getOres("nugget" + o.getKey());
-					if (nugs.size() > 0) {
-						nugget = new ItemStack(nugs.get(0).getItem(), 1, nugs.get(0).getItemDamage());
-						break;
+				this.nuggets.put(chunk, new HashMap<String, Integer>());
+				for (Map.Entry<String, Float> ore : this.chunks.get(chunk).entrySet()) {
+					if (!this.nuggets.get(chunk).containsKey(ore.getKey())) {
+						int amount = getNuggetAmount(ore.getValue());
+						if (amount > 0) {
+							this.nuggets.get(chunk).put(ore.getKey(), amount);
+						}
 					}
 				}
 			}
 
-			Prospecting.logger.debug("Decrementing nuggets to " + (this.nuggets.get(chunk) - 1));
-			this.nuggets.put(chunk, this.nuggets.get(chunk) - 1);
+
 			markDirty();
-			Prospecting.logger.debug("Chunk has " + this.nuggets.get(chunk) + " nuggets after markDirty()");
-			return nugget;
+		}
+	}
+
+	private int getNuggetAmount(float amt) {
+		int divisor = Prospecting.config.ore_per_nugget + (ThreadLocalRandom.current().nextInt(0, (Prospecting.config.ore_per_nugget_deviation * 2) + 1)) - Prospecting.config.ore_per_nugget_deviation;
+		int r = (int) (amt / divisor);
+		if (r > Prospecting.config.max_nuggets) {
+			return Prospecting.config.max_nuggets;
+		} else if (r < 0) {
+			return 0;
+		}
+		return r;
+	}
+
+	public int getFlowerCount(String ore, int cx, int cz) {
+		List<Integer> chunk = Arrays.asList(cx, cz);
+		if (this.chunks.containsKey(chunk) && this.chunks.get(chunk).containsKey(ore)) {
+			int divisor = Prospecting.config.ore_per_flower + (ThreadLocalRandom.current().nextInt(0, (Prospecting.config.ore_per_flower_deviation * 2) + 1)) - Prospecting.config.ore_per_flower_deviation;
+			return (int) (this.chunks.get(chunk).get(ore) / divisor);
+		}
+
+		return 0;
+	}
+
+	// gets a nugget for chunk <cx, cz> and decrements that chunk's nugget count
+	public ItemStack getNugget(int cx, int cz) {
+		scanChunk(cx, cz); // make sure we're dealing with an initialized chunk
+
+		if (hasNuggets(cx, cz)) {
+			List<Integer> chunk = Arrays.asList(cx, cz);
+			ArrayList<String> ores;
+
+			Prospecting.logger.info("Getting nuggets for " + chunk.toString());
+
+			try {
+				ores = new ArrayList<String>(this.nuggets.get(chunk).keySet());
+			} catch (NullPointerException e) {
+				return null;
+			}
+
+			String ore = ores.get(ThreadLocalRandom.current().nextInt(0, ores.size()));
+			ItemStack nugget = OreDictCache.getNuggetFromName(ore);
+
+			Prospecting.logger.info("Selected " + ore);
+
+			if (nugget != null) {
+				Prospecting.logger.info("Nugget found.");
+				int amt = this.nuggets.get(chunk).get(ore) - 1;
+				Prospecting.logger.info("Chunk has " + amt + " nuggets after spawning.");
+
+				if (amt <= 0) {
+					this.nuggets.get(chunk).remove(ore);
+				} else {
+					this.nuggets.get(chunk).put(ore, amt);
+				}
+
+				markDirty();
+
+				return new ItemStack(nugget.getItem(), 1, nugget.getItemDamage());
+			}
+
+			Prospecting.logger.info("Nugget was null.");
+
+			return null;
 		} else {
-			Prospecting.logger.debug("Chunk has no nuggets left.");
+			Prospecting.logger.info("Chunk has no nuggets left.");
 			return null;
 		}
 	}
 
-	private void logChunk(int x, int z) {
-		List<Integer> chunk = Arrays.asList(x, z);
-		Prospecting.logger.debug("Logging chunk " + chunk.toString() + "...");
-		if (hasChunk(x, z)) {
-			for (Map.Entry<String, Integer> o : this.chunks.get(chunk).entrySet()) {
-				Prospecting.logger.debug(o.getKey() + ": " + o.getValue());
+	public void logChunk(int cx, int cz) {
+		List<Integer> chunk = Arrays.asList(cx, cz);
+		if (hasChunk(cx, cz)) {
+			Prospecting.logger.info("Chunk info " + chunk.toString() + ":");
+			for (Map.Entry<String, Float> o : this.chunks.get(chunk).entrySet()) {
+				Prospecting.logger.info("\"" + o.getKey() + "\": " + o.getValue());
 			}
 		} else {
-			Prospecting.logger.debug("No data for chunk.");
+			Prospecting.logger.info("No data for chunk " + chunk.toString() + ".");
+		}
+	}
+
+	public Set<String> getOres(int cx, int cz) {
+		try {
+			return chunks.get(Arrays.asList(cx, cz)).keySet();
+		} catch (NullPointerException e) {
+			return null;
 		}
 	}
 }
