@@ -1,24 +1,31 @@
 package azathoth.util.prospecting.items;
 
+import azathoth.util.prospecting.Prospecting;
+import azathoth.util.prospecting.registry.Prospector;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SifterItem extends ProspectingItem {
-	protected SifterItem() {
-		super();
-	}
+public class SifterItem extends Item {
 
-	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitx, float hity, float hitz) {
-		Block b = world.getBlock(x, y, z);
-		if (b.equals(Blocks.dirt) || b.equals(Blocks.gravel)) {
-			super.doProspect(player, world, x, y, z);
-			return true;
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		Block b = world.getBlockState(pos).getBlock();
+		if (b == Blocks.GRAVEL || b == Blocks.DIRT) {
+			if (!world.isRemote) {
+				Prospecting.logger.debug("Prospecting...");
+				Prospector.logChunk(world, pos);
+				Prospector.spawnNugget(world, pos);
+			}
+			return EnumActionResult.SUCCESS;
 		}
-		return false;
+		return EnumActionResult.FAIL;
 	}
 }

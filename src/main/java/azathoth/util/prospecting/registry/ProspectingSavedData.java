@@ -10,12 +10,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSavedData;
-import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.world.storage.WorldSavedData;
+
 
 public class ProspectingSavedData extends WorldSavedData {
 	private HashMap<List<Integer>, HashMap<String, Float>> chunks; // [cx, cz]: { "ore": amt }
@@ -49,31 +51,31 @@ public class ProspectingSavedData extends WorldSavedData {
 		this.expiry = new HashMap<List<Integer>, Long>();
 		this.nuggets = new HashMap<List<Integer>, HashMap<String, Integer>>();
 
-		for (Object x : t.func_150296_c()) {
-			for (Object z : t.getCompoundTag((String) x).func_150296_c()) {
-				List<Integer> chunk = Arrays.asList(Integer.valueOf((String) x), Integer.valueOf((String) z));
+		for (String x : t.getKeySet()) {
+			for (String z : t.getCompoundTag(x).getKeySet()) {
+				List<Integer> chunk = Arrays.asList(Integer.valueOf(x), Integer.valueOf(z));
 
 				HashMap<String, Float> ores = new HashMap<String, Float>();
-				for (Object ore : t.getCompoundTag((String) x).getCompoundTag((String) z).func_150296_c()) {
+				for (Object ore : t.getCompoundTag((String) x).getCompoundTag(z).getKeySet()) {
 					if (!((String) ore).equals("expiry") && !((String) ore).equals("nuggets")) {
 						ores.put((String) ore, t.getCompoundTag((String) x).getCompoundTag((String) z).getFloat((String) ore));
 					}
 				}
 
 				HashMap<String, Integer> nug_list = new HashMap<String, Integer>();
-				for (Object ore : t.getCompoundTag((String) x).getCompoundTag((String) z).getCompoundTag("nuggets").func_150296_c()) {
-					nug_list.put((String) ore, t.getCompoundTag((String) x).getCompoundTag((String) z).getCompoundTag("nuggets").getInteger((String) ore));
+				for (String ore : t.getCompoundTag((String) x).getCompoundTag((String) z).getCompoundTag("nuggets").getKeySet()) {
+					nug_list.put(ore, t.getCompoundTag(x).getCompoundTag(z).getCompoundTag("nuggets").getInteger(ore));
 				}
 
 				this.chunks.put(chunk, ores);
-				this.expiry.put(chunk, t.getCompoundTag((String) x).getCompoundTag((String) z).getLong("expiry"));
+				this.expiry.put(chunk, t.getCompoundTag(x).getCompoundTag(z).getLong("expiry"));
 				this.nuggets.put(chunk, nug_list);
 			}
 		}
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound t) {
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		Prospecting.logger.debug("Writing to NBT...");
 		for (Map.Entry<List<Integer>, HashMap<String, Float>> chunk : this.chunks.entrySet()) {
 			int cx = chunk.getKey().get(0);
@@ -99,8 +101,9 @@ public class ProspectingSavedData extends WorldSavedData {
 			z_tag.setTag("nuggets", nug_tag);
 
 			x_tag.setTag(Integer.toString(cz), z_tag);
-			t.setTag(Integer.toString(cx), x_tag);
+			compound.setTag(Integer.toString(cx), x_tag);
 		}
+		return compound;
 	}
 
 	public boolean hasChunk(int cx, int cz) {
@@ -132,6 +135,7 @@ public class ProspectingSavedData extends WorldSavedData {
 	}
 
 	public void scanChunk(int cx, int cz) {
+		IBlockState bs;
 		Block b;
 		HashMap<String, Float> ores = new HashMap<String, Float>();
 		int total = 0;
@@ -145,11 +149,12 @@ public class ProspectingSavedData extends WorldSavedData {
 			for (int i = 1; i <= 256; i++) {
 				for (int j = 0; j < 16; j++) {
 					for (int k = 0; k < 16; k++) {
-						b = world.getBlock(x + j, i, z + k);
-						if (!b.equals(Blocks.air)) {
-							String name = OreDictCache.getOreName(b, b.getDamageValue(world, x + j , i, z + k));
+						bs = world.getBlockState((new BlockPos(x + j, i, z+ k)));
+						b = bs.getBlock();
+						if (b != Blocks.AIR) {
+							String name = OreDictCache.getOreName(b, b.damageDropped(bs));
 							if (name != null) {
-								float amt = OreDictCache.getOreValue(b, b.getDamageValue(world, x + j, i, z + k));
+								float amt = OreDictCache.getOreValue(b, b.damageDropped(bs));
 								if (ores.containsKey(name)) {
 									amt += ores.remove(name);
 								}
@@ -199,8 +204,9 @@ public class ProspectingSavedData extends WorldSavedData {
 	public int getFlowerCount(String ore, int cx, int cz) {
 		List<Integer> chunk = Arrays.asList(cx, cz);
 		if (this.chunks.containsKey(chunk) && this.chunks.get(chunk).containsKey(ore)) {
-			int divisor = Prospecting.config.ore_per_flower + (ThreadLocalRandom.current().nextInt(0, (Prospecting.config.ore_per_flower_deviation * 2) + 1)) - Prospecting.config.ore_per_flower_deviation;
-			return (int) (this.chunks.get(chunk).get(ore) / divisor);
+			return 1;
+//			int divisor = Prospecting.config.ore_per_flower + (ThreadLocalRandom.current().nextInt(0, (Prospecting.config.ore_per_flower_deviation * 2) + 1)) - Prospecting.config.ore_per_flower_deviation;
+//			return (int) (this.chunks.get(chunk).get(ore) / divisor);
 		}
 
 		return 0;

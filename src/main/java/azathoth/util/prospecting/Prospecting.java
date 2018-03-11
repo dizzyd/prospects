@@ -1,49 +1,48 @@
 package azathoth.util.prospecting;
 
+import azathoth.util.prospecting.blocks.BlockIndicatorFlower;
 import azathoth.util.prospecting.config.ProspectingConfiguration;
-import azathoth.util.prospecting.items.ProspectingItems;
-import azathoth.util.prospecting.blocks.ProspectingBlocks;
+import azathoth.util.prospecting.proxy.CommonProxy;
 import azathoth.util.prospecting.world.ProspectingWorldGen;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
-
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
-import org.apache.logging.log4j.Logger;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Prospecting.MODID, name = Prospecting.NAME, dependencies = "required-after:Forge@[7.0,);", version = Prospecting.VERSION)
+@Mod(modid = Prospecting.MODID, name = Prospecting.NAME, version = Prospecting.VERSION, acceptedMinecraftVersions = "[1.12]", useMetadata = true)
 public class Prospecting {
 	public static final String MODID = "prospecting";
 	public static final String NAME = "Prospecting";
 	public static final String VERSION = "0.0.1";
 
-	public static ProspectingConfiguration config;
+	@SidedProxy(clientSide = "azathoth.util.prospecting.proxy.ClientProxy", serverSide = "azathoth.util.prospecting.proxy.CommonProxy")
+	public static CommonProxy proxy;
 
-	@Instance(MODID)
+	@Mod.Instance
 	public static Prospecting instance;
-	
+
 	public static Logger logger = LogManager.getLogger("Prospecting");
 
-	@EventHandler
+	public static ProspectingConfiguration config;
+
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		this.config = new ProspectingConfiguration(event);
-		ProspectingItems.init();
-		ProspectingBlocks.init();
 	}
 
-	@EventHandler
+	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		GameRegistry.registerWorldGenerator(new ProspectingWorldGen(), 1000);
-
-		GameRegistry.addRecipe(new ItemStack(ProspectingItems.prospecting_pan), new Object[] {"s s", " s ", 's', Blocks.stone_slab});
-		GameRegistry.addRecipe(new ItemStack(ProspectingItems.prospecting_pick), new Object[] {"iis", "  s", 'i', Items.iron_ingot, 's', Items.stick});
-		GameRegistry.addRecipe(new ItemStack(ProspectingItems.sifting_pan), new Object[] {"s s", "s#s", "s#s", 's', Items.stick, '#', Items.string});
 	}
 }

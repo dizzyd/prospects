@@ -22,10 +22,14 @@ public class OreDictCache {
 	
 	private static void cacheOre(Block b, int meta) {
 		List key = Arrays.asList(b, meta);
-		if (!name_cache.containsKey(key) && b != Blocks.stone && b != Blocks.air && b != Blocks.dirt && b != Blocks.grass && b != Blocks.gravel) {
+		if (!name_cache.containsKey(key) && b != Blocks.STONE && b != Blocks.AIR && b != Blocks.DIRT && b != Blocks.GRASS && b != Blocks.GRAVEL) {
 			String name = null;
 			float value = 1f;
-			int[] ids = OreDictionary.getOreIDs(new ItemStack(b, 1, meta));
+			ItemStack is = new ItemStack(b, 1, meta);
+			if (is.isEmpty())
+				return;
+
+			int[] ids = OreDictionary.getOreIDs(is);
 
 			if (ids.length > 0) {
 				String dict_name = OreDictionary.getOreName(ids[0]);
