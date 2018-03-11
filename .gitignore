@@ -5,3 +5,9 @@ gradlew
 gradlew.bat
 build
 gradle
+
+out
+run
+.idea
+
+.DS_Store
