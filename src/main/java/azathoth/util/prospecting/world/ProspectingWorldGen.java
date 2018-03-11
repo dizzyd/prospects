@@ -31,16 +31,12 @@ public class ProspectingWorldGen implements IWorldGenerator {
 		// Get a list of ores in this chunk
 		Set<String> ores = Prospector.getOres(world, chunkX << 4, chunkZ << 4);
 		for (String ore : ores) {
-			// If there is a flower block associated with the ore AND we don't have too many flowers on this chunk
-			// try to place the flower
+			// If there is a flower block associated with the ore, try to place a flower
 			flower = Prospector.getFlowerBlock(ore);
 			if (flower != null) {
-//				for (int i = 0; i < Prospector.getFlowerCount(world, ore, chunkZ << 4, chunkZ << 4) && i < Prospecting.config.max_flowers; i++) {
-					int x = (chunkZ << 4) + random.nextInt(16);
-					int z = (chunkZ << 4) + random.nextInt(16);
-					placeFlower(world, new BlockPos(x, 64, z), flower);
-//				}
-				placedFlowers = true;
+				int x = (chunkX << 4) + random.nextInt(16);
+				int z = (chunkZ << 4) + random.nextInt(16);
+				placedFlowers &= placeFlower(world, new BlockPos(x, 64, z), flower);
 			}
 		}
 
@@ -49,7 +45,7 @@ public class ProspectingWorldGen implements IWorldGenerator {
 			flower = Prospector.getRandomFlowerBlock();
 			if (flower != null) {
 				for (int j = 0; j < ThreadLocalRandom.current().nextInt(5) + 1; j++) {
-					int x = (chunkZ << 4) + random.nextInt(16);
+					int x = (chunkX << 4) + random.nextInt(16);
 					int z = (chunkZ << 4) + random.nextInt(16);
 					placeFlower(world, new BlockPos(x, 64, z), flower);
 				}
@@ -57,17 +53,19 @@ public class ProspectingWorldGen implements IWorldGenerator {
 		}
 	}
 
-	public void placeFlower(World world, BlockPos pos, Block flower) {
+	public boolean placeFlower(World world, BlockPos pos, Block flower) {
 		// Find the top-most block pos
 		BlockPos top = world.getTopSolidOrLiquidBlock(pos);
 		if (top.getY() == -1) {
-			return;
+			return false;
 		}
 
 		Block surface = world.getBlockState(top.down(1)).getBlock();
 		if (surface == Blocks.GRASS || surface == Blocks.DIRT) {
-			System.out.println("Placing flower " + flower.toString() + " at: " + top);
 			world.setBlockState(top, flower.getDefaultState());
+			return true;
 		}
+
+		return false;
 	}
 }
