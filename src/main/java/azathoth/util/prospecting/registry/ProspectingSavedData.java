@@ -137,7 +137,7 @@ public class ProspectingSavedData extends WorldSavedData {
 	public void scanChunk(int cx, int cz) {
 		IBlockState bs;
 		Block b;
-		HashMap<String, Float> ores = new HashMap<String, Float>();
+		HashMap<String, Float> ores = new HashMap<>();
 		int total = 0;
 		List<Integer> chunk = Arrays.asList(cx, cz);
 		int x = cx << 4;
@@ -151,22 +151,24 @@ public class ProspectingSavedData extends WorldSavedData {
 					for (int k = 0; k < 16; k++) {
 						bs = world.getBlockState((new BlockPos(x + j, i, z+ k)));
 						b = bs.getBlock();
-						if (b != Blocks.AIR) {
-							String name = OreDictCache.getOreName(b, b.damageDropped(bs));
-							if (name != null) {
-								float amt = OreDictCache.getOreValue(b, b.damageDropped(bs));
-								if (ores.containsKey(name)) {
-									amt += ores.remove(name);
-								}
-								ores.put(name, amt);
-							}
-							total++;
+
+						// Fast-path on common blocks
+						if (b == Blocks.AIR || b == Blocks.STONE || b == Blocks.DIRT) {
+							continue;
+						}
+
+						total++;
+
+						// If the block is an ore, we need to increment the counter for this chunk
+						String name = OreDictCache.getOreName(bs);
+						if (name != null) {
+							float count = ores.getOrDefault(name, 0.0f);
+							ores.put(name, count+1);
 						}
 					}
 				}
 			}
 
-			Prospecting.logger.debug("Scanned.");
 			Prospecting.logger.debug("Total blocks scanned: " + total);
 			Prospecting.logger.debug("Ore types found: " + ores.size());
 

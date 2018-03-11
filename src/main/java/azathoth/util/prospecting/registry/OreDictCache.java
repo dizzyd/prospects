@@ -1,71 +1,54 @@
 package azathoth.util.prospecting.registry;
 
-import azathoth.util.prospecting.Prospecting;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class OreDictCache {
-	// [Block b, int meta]: "Name"
-	private static HashMap<List, String> name_cache = new HashMap<List, String>();
-	private static HashMap<List, Float> value_cache = new HashMap<List, Float>();
 
-	public static boolean isOre(Block b, int meta) {
-		return !(getOreName(b, meta) == null);
-	}
-	
-	private static void cacheOre(Block b, int meta) {
-		List key = Arrays.asList(b, meta);
-		if (!name_cache.containsKey(key) && b != Blocks.STONE && b != Blocks.AIR && b != Blocks.DIRT && b != Blocks.GRASS && b != Blocks.GRAVEL) {
-			String name = null;
-			float value = 1f;
-			ItemStack is = new ItemStack(b, 1, meta);
-			if (is.isEmpty())
-				return;
+	private static HashMap<IBlockState, ItemStack> oresParticles = new HashMap<>();
+	private static HashMap<IBlockState, String> oreNames = new HashMap<>();
 
-			int[] ids = OreDictionary.getOreIDs(is);
-
-			if (ids.length > 0) {
-				String dict_name = OreDictionary.getOreName(ids[0]);
-
-				if (dict_name.length() > 3 && dict_name.substring(0, 3).equals("ore")) {
-					dict_name = dict_name.substring(3);
-					if (dict_name.length() > 4 && dict_name.substring(0, 4).equals("Poor")) {
-						dict_name = dict_name.substring(4);
-						value = (1f/9f);
-					}
-				} else if (dict_name.length() > 8 && dict_name.substring(0, 8).equals("denseore")) {
-					dict_name = dict_name.substring(8);
-					value = 3f;
+	public static void init() {
+		// Walk over the ore dictionary and identify ores and (if available) which ones are prospectable
+		for (String name : OreDictionary.getOreNames()) {
+			if (name.startsWith("ore")) {
+				// Identify the item stack we'll be using when prospecting; check first for a nugget
+				// then a dust.
+				String nuggetId = "nugget" + name.substring(3);
+				String dustId = "dust" + name.substring(3);
+				ItemStack oreParticle = null;
+				if (OreDictionary.doesOreNameExist(nuggetId)) {
+					oreParticle = OreDictionary.getOres(nuggetId).get(0);
+				} else if (OreDictionary.doesOreNameExist(dustId)) {
+					oreParticle = OreDictionary.getOres(dustId).get(0);
 				}
 
-				String norm = normalizeName(dict_name);
+				// For each of the ores associated with this ore dictionary entry, we want try and convert back
+				// to a block so we can get the registry name which will enable quicker lookups
+				for (ItemStack stack : OreDictionary.getOres(name)) {
+					Block b = Block.getBlockFromItem(stack.getItem());
 
-				if (hasNugget(norm)) {
-					Prospecting.logger.info("Parsed name: " + norm);
-					Prospecting.logger.info("Amount: " + value);
-					name_cache.put(key, norm);
-					value_cache.put(key, value);
+					// Determine the appropriate block state for this ore; the meta is passed in the damage field
+					// on the item stack (?!?!)
+					IBlockState bs = b.getBlockState().getValidStates().get(stack.getItemDamage());
+					if (oreParticle != null) {
+						oresParticles.put(bs, oreParticle);
+					}
+					oreNames.put(bs, normalizeName(name.substring(3)));
 				}
 			}
 		}
 	}
 
-	public static String getOreName(Block b, int meta) {
-		cacheOre(b, meta);
-		return name_cache.get(Arrays.asList(b, meta));
+	public static String getOreName(IBlockState bs) {
+		return oreNames.get(bs);
 	}
 
-	public static float getOreValue(Block b, int meta) {
-		cacheOre(b, meta);
-		return value_cache.get(Arrays.asList(b, meta));
-	}
 
 	public static ItemStack getNuggetFromName(String name) {
 		if (name.equals("Redstone")) {
@@ -80,14 +63,6 @@ public class OreDictCache {
 			return true;
 		} else {
 			return OreDictionary.getOres("nugget" + name).size() > 0;
-		}
-	}
-
-	private static boolean blacklisted(String name) {
-		try {
-			return name.substring(0, 4).equals("bush") || name.substring(0, 4).equals("Poor") || name.substring(0, 5).equals("dense");
-		} catch (StringIndexOutOfBoundsException e) {
-			return false;
 		}
 	}
 
