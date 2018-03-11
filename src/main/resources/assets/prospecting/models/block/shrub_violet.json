@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "prospecting:blocks/shrub_violet"
+    }
+}

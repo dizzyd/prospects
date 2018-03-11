@@ -1,6 +1,10 @@
 {
-    "parent": "block/cross",
-    "textures": {
-        "cross": "prospecting:textures/blocks/camellia"
+    "forge_marker": 1,
+    "defaults": {
+      "model": "prospecting:camellia"
+    },
+    "variants": {
+      "normal": [{}],
+      "inventory": [{}]
     }
-}
+  }

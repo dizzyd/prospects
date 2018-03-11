@@ -1,6 +1,10 @@
 {
-    "parent": "block/cross",
-    "textures": {
-        "cross": "prospecting:textures/blocks/poorjoe"
+    "forge_marker": 1,
+    "defaults": {
+      "model": "prospecting:poorjoe"
+    },
+    "variants": {
+      "normal": [{}],
+      "inventory": [{}]
     }
-}
+  }

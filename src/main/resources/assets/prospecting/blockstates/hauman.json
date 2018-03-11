@@ -1,6 +1,10 @@
 {
-    "parent": "block/cross",
-    "textures": {
-        "cross": "prospecting:textures/blocks/hauman"
+    "forge_marker": 1,
+    "defaults": {
+      "model": "prospecting:hauman"
+    },
+    "variants": {
+      "normal": [{}],
+      "inventory": [{}]
     }
-}
+  }
