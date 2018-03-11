@@ -1,4 +1,4 @@
-package azathoth.util.prospecting.world;
+package azathoth.util.prospecting;
 
 import azathoth.util.prospecting.Prospecting;
 import azathoth.util.prospecting.registry.Prospector;
@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ProspectingWorldGen implements IWorldGenerator {
+public class WorldGen implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (world.provider.getDimension() != 0) {

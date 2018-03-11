@@ -1,9 +1,9 @@
-package azathoth.util.prospecting.config;
+package azathoth.util.prospecting;
 
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.Configuration;
 
-public class ProspectingConfiguration {
+public class Config {
 	public int chunk_expiry;
 
 	public float nugget_chance;
@@ -16,13 +16,12 @@ public class ProspectingConfiguration {
 	public int ore_per_flower_deviation;
 	public int max_flowers;
 
-	public ProspectingConfiguration(FMLPreInitializationEvent e) {
+	public Config(FMLPreInitializationEvent e) {
 		final Configuration config = new Configuration(e.getSuggestedConfigurationFile());
 
 		config.load();
 
 		// this.nugget_amount = config.getInt("Nuggets Per Chunk", "General", 1, 0, 999999999, "The number of nuggets that can be prospected in a chunk, if it has applicable ore in it.");
-		this.chunk_expiry = config.getInt("Chunk Expiry", "Caching", 300, 1, 999999999, "The number of seconds until a chunk's cache expires. After the cache expires, the chunk will be re-scanned for ore when it is prospected.");
 
 		this.nugget_chance = config.getFloat("Nugget Chance", "Probabilities", 0.8f, 0f, 1f, "The chance that a chunk will have nuggets. The number of nuggets produced is determined by the \"Ore Per Nugget\" setting");
 		this.ore_per_nugget = config.getInt("Ore Per Nugget", "Probabilities", 50, 0, 4096, "The number of ore, on average, that will produce 1 nugget in a chunk. For example, if this value is 50, and a chunk has 100 iron ore, you can expect to get 2 nuggets from the chunk through prospecting.");
