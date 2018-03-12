@@ -21,7 +21,6 @@ public class SifterItem extends Item {
 		if (b == Blocks.GRAVEL || b == Blocks.DIRT) {
 			if (!world.isRemote) {
 				Prospecting.logger.debug("Prospecting...");
-				Prospector.logChunk(world, pos);
 				Prospector.spawnNugget(world, pos);
 			}
 			return EnumActionResult.SUCCESS;

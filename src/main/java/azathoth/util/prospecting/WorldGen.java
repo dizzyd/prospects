@@ -29,7 +29,7 @@ public class WorldGen implements IWorldGenerator {
 		boolean placedFlowers = false;
 
 		// Get a list of ores in this chunk
-		Set<String> ores = Prospector.getOres(world, chunkX << 4, chunkZ << 4);
+		Set<String> ores = Prospector.getOres(world, chunkX, chunkZ);
 		for (String ore : ores) {
 			// If there is a flower block associated with the ore, try to place a flower
 			flower = Prospector.getFlowerBlock(ore);
@@ -62,6 +62,7 @@ public class WorldGen implements IWorldGenerator {
 
 		Block surface = world.getBlockState(top.down(1)).getBlock();
 		if (surface == Blocks.GRASS || surface == Blocks.DIRT) {
+			// TODO: Investigate why this is generating cascading world gen on occasion
 			world.setBlockState(top, flower.getDefaultState());
 			return true;
 		}

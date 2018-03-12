@@ -17,7 +17,6 @@ public class PanItem extends Item {
 		if (world.getBlockState(pos).getBlock() == Blocks.WATER) {
 			if (!world.isRemote) {
 				Prospecting.logger.debug("Prospecting...");
-				Prospector.logChunk(world, pos);
 				Prospector.spawnNugget(world, pos);
 			}
 			return EnumActionResult.SUCCESS;

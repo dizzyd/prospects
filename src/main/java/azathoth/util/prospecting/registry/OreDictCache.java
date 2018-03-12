@@ -10,7 +10,7 @@ import java.util.List;
 
 public class OreDictCache {
 
-	private static HashMap<IBlockState, ItemStack> oresParticles = new HashMap<>();
+	private static HashMap<String, ItemStack> oreParticles = new HashMap<>();
 	private static HashMap<IBlockState, String> oreNames = new HashMap<>();
 
 	public static void init() {
@@ -36,10 +36,11 @@ public class OreDictCache {
 					// Determine the appropriate block state for this ore; the meta is passed in the damage field
 					// on the item stack (?!?!)
 					IBlockState bs = b.getBlockState().getValidStates().get(stack.getItemDamage());
+					String normalizedName = normalizeName(name.substring(3));
+					oreNames.put(bs, normalizedName);
 					if (oreParticle != null) {
-						oresParticles.put(bs, oreParticle);
+						oreParticles.put(normalizedName, oreParticle);
 					}
-					oreNames.put(bs, normalizeName(name.substring(3)));
 				}
 			}
 		}
@@ -50,20 +51,8 @@ public class OreDictCache {
 	}
 
 
-	public static ItemStack getNuggetFromName(String name) {
-		if (name.equals("Redstone")) {
-			return OreDictionary.getOres("dust" + name).get(0);
-		} else {
-			return OreDictionary.getOres("nugget" + name).get(0);
-		}
-	}
-
-	private static boolean hasNugget(String name) {
-		if (name.equals("Redstone")) {
-			return true;
-		} else {
-			return OreDictionary.getOres("nugget" + name).size() > 0;
-		}
+	public static ItemStack getParticle(String name) {
+		return oreParticles.get(name);
 	}
 
 	public static String normalizeName(String name) {

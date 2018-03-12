@@ -19,7 +19,6 @@ public class PickItem extends Item {
 		if (world.getBlockState(pos).getBlock() == Blocks.STONE) {
 			if (!world.isRemote) {
 				Prospecting.logger.debug("Prospecting...");
-				Prospector.logChunk(world, pos);
 				Prospector.spawnNugget(world, pos);
 			}
 			return EnumActionResult.SUCCESS;
