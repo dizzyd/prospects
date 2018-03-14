@@ -10,6 +10,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -28,15 +29,17 @@ public class WorldGen implements IWorldGenerator {
 		Block flower;
 		boolean placedFlowers = false;
 
-		// Get a list of ores in this chunk
-		Set<String> ores = Prospector.getOres(world, chunkX, chunkZ);
-		for (String ore : ores) {
+		// Get a ores and their counts for this chunk
+		HashMap<String, Float> ores = Prospector.getOres(world, chunkX, chunkZ);
+		for (String ore : ores.keySet()) {
 			// If there is a flower block associated with the ore, try to place a flower
 			flower = Prospector.getFlowerBlock(ore);
 			if (flower != null) {
-				int x = (chunkX << 4) + random.nextInt(16);
-				int z = (chunkZ << 4) + random.nextInt(16);
-				placedFlowers &= placeFlower(world, new BlockPos(x, 64, z), flower);
+				for (int i = 0; i < getFlowerCount(ores.get(ore)); i++) {
+					int x = (chunkX << 4) + random.nextInt(16);
+					int z = (chunkZ << 4) + random.nextInt(16);
+					placedFlowers &= placeFlower(world, new BlockPos(x, 64, z), flower);
+				}
 			}
 		}
 
@@ -53,7 +56,7 @@ public class WorldGen implements IWorldGenerator {
 		}
 	}
 
-	public boolean placeFlower(World world, BlockPos pos, Block flower) {
+	private boolean placeFlower(World world, BlockPos pos, Block flower) {
 		// Find the top-most block pos
 		BlockPos topPos = world.getTopSolidOrLiquidBlock(pos);
 		if (topPos.getY() == -1) {
@@ -69,5 +72,10 @@ public class WorldGen implements IWorldGenerator {
 		}
 
 		return false;
+	}
+
+	private int getFlowerCount(Float oreAmt) {
+		double count = Math.ceil(oreAmt / Prospecting.config.ore_per_flower);
+		return (int)Math.min(Math.round(count), (long)Prospecting.config.max_flowers);
 	}
 }

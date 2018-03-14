@@ -191,13 +191,7 @@ public class ProspectingSavedData extends WorldSavedData {
 		return r;
 	}
 
-	public int getFlowerCount(String ore, int cx, int cz) {
-		ChunkInfo c = chunks.get(coordsToLong(cx, cz));
-		if (c != null && c.ores.containsKey(ore)) {
-			return 1;
-		}
-		return 0;
-	}
+
 
 	// gets a nugget for chunk <cx, cz> and decrements that chunk's nugget count
 	public ItemStack getNugget(int cx, int cz) {
@@ -235,12 +229,12 @@ public class ProspectingSavedData extends WorldSavedData {
 		return ItemStack.EMPTY;
 	}
 
-	public Set<String> getOres(int cx, int cz) {
+	public HashMap<String, Float> getOreCounts(int cx, int cz) {
 		ChunkInfo c = chunks.get(coordsToLong(cx, cz));
 		if (c != null) {
-			return c.ores.keySet();
+			return c.ores;
 		}
-		return null;
+		return new HashMap<String, Float>();
 	}
 
 	private static Long coordsToLong(int cx, int cz) {

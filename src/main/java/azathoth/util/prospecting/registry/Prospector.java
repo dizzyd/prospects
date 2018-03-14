@@ -49,8 +49,8 @@ public class Prospector {
 		}
 	}
 
-	public static Set<String> getOres(World world, int cx, int cz) {
-		return loadAndScan(world, cx, cz).getOres(cx, cz);
+	public static HashMap<String, Float> getOres(World world, int cx, int cz) {
+		return loadAndScan(world, cx, cz).getOreCounts(cx, cz);
 	}
 
 	public static void registerFlower(String ore, Block f) {

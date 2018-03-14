@@ -16,3 +16,5 @@ tile.ShrubViolet.name=Shrub Violet
 tile.Vallozia.name=Vallozia
 tile.FlameLily.name=Flame Lily
 tile.Tansy.name=Tansy
+
+prospect.info=Ores @ %d, %d:%s
