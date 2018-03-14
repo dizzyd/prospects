@@ -55,15 +55,16 @@ public class WorldGen implements IWorldGenerator {
 
 	public boolean placeFlower(World world, BlockPos pos, Block flower) {
 		// Find the top-most block pos
-		BlockPos top = world.getTopSolidOrLiquidBlock(pos);
-		if (top.getY() == -1) {
+		BlockPos topPos = world.getTopSolidOrLiquidBlock(pos);
+		if (topPos.getY() == -1) {
 			return false;
 		}
 
-		Block surface = world.getBlockState(top.down(1)).getBlock();
-		if (surface == Blocks.GRASS || surface == Blocks.DIRT) {
+		Block surface = world.getBlockState(topPos.down(1)).getBlock();
+		Block top = world.getBlockState(topPos).getBlock();
+		if ((surface == Blocks.GRASS || surface == Blocks.DIRT) && top == Blocks.AIR) {
 			// TODO: Investigate why this is generating cascading world gen on occasion
-			world.setBlockState(top, flower.getDefaultState());
+			world.setBlockState(topPos, flower.getDefaultState());
 			return true;
 		}
 

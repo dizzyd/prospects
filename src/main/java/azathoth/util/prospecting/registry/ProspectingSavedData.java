@@ -164,11 +164,14 @@ public class ProspectingSavedData extends WorldSavedData {
 			Prospecting.logger.debug("Total blocks scanned: " + total);
 			Prospecting.logger.debug("Ore types found: " + cinfo.ores.size());
 
-			cinfo.expiry = world.getWorldTime() + (20 * Prospecting.config.chunk_expiry);
+			cinfo.expiry = world.getWorldTime() + Prospecting.config.chunk_expiry;
 
 			// For each of the ores, setup a counter to track number of prospecting nuggets
 			for (Map.Entry<String, Float> ore : cinfo.ores.entrySet()) {
-				cinfo.nuggets.put(ore.getKey(), getNuggetAmount(ore.getValue()));
+				int nuggets = getNuggetAmount(ore.getValue());
+				if (nuggets > 0) {
+					cinfo.nuggets.put(ore.getKey(), nuggets);
+				}
 			}
 
 			// Save it
@@ -179,8 +182,7 @@ public class ProspectingSavedData extends WorldSavedData {
 	}
 
 	private int getNuggetAmount(float amt) {
-		int divisor = Prospecting.config.ore_per_nugget + (ThreadLocalRandom.current().nextInt(0, (Prospecting.config.ore_per_nugget_deviation * 2) + 1)) - Prospecting.config.ore_per_nugget_deviation;
-		int r = (int) (amt / divisor);
+		int r = (int) (amt / Prospecting.config.ore_per_nugget);
 		if (r > Prospecting.config.max_nuggets) {
 			return Prospecting.config.max_nuggets;
 		} else if (r < 0) {
@@ -209,6 +211,8 @@ public class ProspectingSavedData extends WorldSavedData {
 		if (c.nuggets.isEmpty()) {
 			return ItemStack.EMPTY;
 		}
+
+		System.out.println(c.nuggets);
 
 		// Choose an ore at random
 		int index = ThreadLocalRandom.current().nextInt(0, c.nuggets.size());
