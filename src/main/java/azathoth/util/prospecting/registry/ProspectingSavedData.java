@@ -181,7 +181,7 @@ public class ProspectingSavedData extends WorldSavedData {
 	}
 
 	private int getNuggetAmount(float amt) {
-		int r = (int) (amt / Prospecting.config.ore_per_nugget);
+		int r = (int) Math.ceil(amt / Prospecting.config.ore_per_nugget);
 		if (r > Prospecting.config.max_nuggets) {
 			return Prospecting.config.max_nuggets;
 		} else if (r < 0) {
