@@ -14,7 +14,6 @@ import net.minecraftforge.common.util.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -22,7 +21,7 @@ public class ProspectingSavedData extends WorldSavedData {
 	private HashMap<Long, ChunkInfo> chunks = new HashMap<>();
 	private World world;
 
-	class ChunkInfo {
+	public class ChunkInfo {
 		public HashMap<String, Float> ores = new HashMap<>();
 		public long expiry = 0;
 		public HashMap<String, Integer> nuggets = new HashMap<>();
@@ -43,11 +42,11 @@ public class ProspectingSavedData extends WorldSavedData {
 
 		NBTTagList chunkList = t.getTagList("chunks", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < chunkList.tagCount(); i++) {
-			ChunkInfo chunk = new ChunkInfo();
-
 			NBTTagCompound chunkData = chunkList.getCompoundTagAt(i);
 			int cx = chunkData.getInteger("cx");
 			int cz = chunkData.getInteger("cz");
+
+			ChunkInfo chunk = new ChunkInfo();
 			chunk.expiry = chunkData.getLong("expiry");
 
 			NBTTagCompound oresData = chunkData.getCompoundTag("ores");
@@ -136,7 +135,7 @@ public class ProspectingSavedData extends WorldSavedData {
 			// Create a new chunk info object
 			ChunkInfo cinfo = new ChunkInfo();
 
-			Prospecting.logger.debug("Scanning chunk [" + cx + ", " + cz + "]...");
+			Prospecting.logger.info("Scanning chunk [" + cx + ", " + cz + "]...");
 			for (int i = 1; i <= 256; i++) {
 				for (int j = 0; j < 16; j++) {
 					for (int k = 0; k < 16; k++) {
@@ -237,8 +236,12 @@ public class ProspectingSavedData extends WorldSavedData {
 		return new HashMap<String, Float>();
 	}
 
+	public ChunkInfo getChunkInfo(int cx, int cz) {
+		return chunks.get(coordsToLong(cx, cz));
+	}
+
 	private static Long coordsToLong(int cx, int cz) {
-		return (((long)cx) << 32) | ((long)cz);
+		return (long)cx << 32 | cz & 0xFFFFFFFFL;
 	}
 
 	private static int longToCx(long coord) {
@@ -246,6 +249,6 @@ public class ProspectingSavedData extends WorldSavedData {
 	}
 
 	private static int longToCz(long coord) {
-		return (int)(coord & 0xFFFFFFFF);
+		return (int)coord ;
 	}
 }

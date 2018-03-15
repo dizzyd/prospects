@@ -1,14 +1,12 @@
 package azathoth.util.prospecting;
 
+import azathoth.util.prospecting.registry.ProspectingSavedData;
 import azathoth.util.prospecting.registry.Prospector;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.server.command.CommandTreeBase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Command extends CommandTreeBase {
 
@@ -43,9 +41,11 @@ public class Command extends CommandTreeBase {
 			int cx = sender.getPosition().getX() >> 4;
 			int cz = sender.getPosition().getZ() >> 4;
 			StringBuilder buf = new StringBuilder();
-			HashMap<String, Float> oreCounts = Prospector.getOres(sender.getEntityWorld(), cx, cz);
-			for (Map.Entry<String, Float> e : oreCounts.entrySet()) {
-				buf.append(" " + e.getKey() + ": " + Math.round(e.getValue()));
+			ProspectingSavedData.ChunkInfo info = Prospector.getChunkInfo(sender.getEntityWorld(), cx, cz);
+			for (String ore : info.ores.keySet()) {
+				float oreCount = info.ores.get(ore);
+				int nuggetCount = info.nuggets.getOrDefault(ore, 0);
+				buf.append(" " + ore + ": " + Math.round(oreCount) + '(' + nuggetCount + ')');
 			}
 			Command.notifyCommandListener(sender, this, "prospect.info", cx, cz, buf.toString());
 		}

@@ -1,6 +1,5 @@
 package azathoth.util.prospecting.registry;
 
-import azathoth.util.prospecting.Prospecting;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -8,7 +7,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Prospector {
@@ -51,6 +49,10 @@ public class Prospector {
 
 	public static HashMap<String, Float> getOres(World world, int cx, int cz) {
 		return loadAndScan(world, cx, cz).getOreCounts(cx, cz);
+	}
+
+	public static ProspectingSavedData.ChunkInfo getChunkInfo(World world, int cx, int cz) {
+		return loadAndScan(world, cx, cz).getChunkInfo(cx, cz);
 	}
 
 	public static void registerFlower(String ore, Block f) {
