@@ -22,10 +22,6 @@ public class WorldGen implements IWorldGenerator {
 			return;
 		}
 
-		if (random.nextFloat() > Prospecting.config.flower_chance) {
-			return;
-		}
-
 		Block flower;
 		boolean placedFlowers = false;
 
@@ -36,6 +32,10 @@ public class WorldGen implements IWorldGenerator {
 			flower = Prospector.getFlowerBlock(ore);
 			if (flower != null) {
 				for (int i = 0; i < getFlowerCount(ores.get(ore)); i++) {
+					if (random.nextFloat() > Prospecting.config.flower_chance) {
+						continue;
+					}
+
 					int x = (chunkX << 4)+ random.nextInt(15);
 					int z = (chunkZ << 4) + random.nextInt(15);
 					placedFlowers &= placeFlower(world, new BlockPos(x, 64, z), flower);
@@ -48,6 +48,10 @@ public class WorldGen implements IWorldGenerator {
 			flower = Prospector.getRandomFlowerBlock();
 			if (flower != null) {
 				for (int j = 0; j < ThreadLocalRandom.current().nextInt(5) + 1; j++) {
+					if (random.nextFloat() > Prospecting.config.flower_chance) {
+						continue;
+					}
+
 					int x = (chunkX << 4) + random.nextInt(15);
 					int z = (chunkZ << 4) + random.nextInt(15);
 					placeFlower(world, new BlockPos(x, 64, z), flower);
