@@ -39,7 +39,7 @@ public class Config {
 				"This chance that a chunk will have some indicator flowers spawn despite having no ore.");
 
 		this.ore_per_flower = config.getInt("Ore Per Flower", "Probabilities",
-				50, 0, 4096,
+				15, 0, 4096,
 				"The number of ore, on average, that it takes to produce 1 flower on the surface.");
 
 		this.max_flowers = config.getInt("Maximum Flower Count", "Probabilities",

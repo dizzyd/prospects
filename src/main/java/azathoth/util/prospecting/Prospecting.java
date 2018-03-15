@@ -1,5 +1,8 @@
 package azathoth.util.prospecting;
 
+import azathoth.util.prospecting.items.PanItem;
+import azathoth.util.prospecting.items.PickItem;
+import azathoth.util.prospecting.items.SifterItem;
 import azathoth.util.prospecting.proxy.CommonProxy;
 import azathoth.util.prospecting.registry.OreDictCache;
 import net.minecraftforge.fml.common.Mod;
@@ -30,12 +33,16 @@ public class Prospecting {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		this.config = new Config(event);
+		config = new Config(event);
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
+
 		GameRegistry.registerWorldGenerator(new WorldGen(), 1000);
+		PanItem.INSTANCE.registerRecipe();
+		PickItem.INSTANCE.registerRecipe();
+		SifterItem.INSTANCE.registerRecipe();
 	}
 
 	@Mod.EventHandler
