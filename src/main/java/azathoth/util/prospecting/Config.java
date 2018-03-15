@@ -35,7 +35,7 @@ public class Config {
 				"The chance that a given chunk will produce flowers, if it contains ore. The number of flowers produced is determined by the \"Ore Per Flower\" setting.");
 
 		this.flower_false_chance = config.getFloat("Flower False Positive Chance", "Probabilities",
-				0.05f, 0f, 1f,
+				-1, -1f, 1f,
 				"This chance that a chunk will have some indicator flowers spawn despite having no ore.");
 
 		this.ore_per_flower = config.getInt("Ore Per Flower", "Probabilities",
