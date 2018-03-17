@@ -1,6 +1,7 @@
 package azathoth.util.prospecting;
 
 import azathoth.util.prospecting.Prospecting;
+import azathoth.util.prospecting.blocks.BlockIndicatorFlower;
 import azathoth.util.prospecting.registry.Prospector;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -22,15 +23,15 @@ public class WorldGen implements IWorldGenerator {
 			return;
 		}
 
-		Block flower;
+		BlockIndicatorFlower.EnumFlowerType flowerType;
 		boolean placedFlowers = false;
 
 		// Get a ores and their counts for this chunk
 		HashMap<String, Float> ores = Prospector.getOres(world, chunkX, chunkZ);
 		for (String ore : ores.keySet()) {
 			// If there is a flower block associated with the ore, try to place a flower
-			flower = Prospector.getFlowerBlock(ore);
-			if (flower != null) {
+			flowerType = Prospector.getFlowerBlock(ore);
+			if (flowerType != null) {
 				for (int i = 0; i < getFlowerCount(ores.get(ore)); i++) {
 					if (random.nextFloat() > Prospecting.config.flower_chance) {
 						continue;
@@ -38,15 +39,15 @@ public class WorldGen implements IWorldGenerator {
 
 					int x = (chunkX << 4)+ random.nextInt(15);
 					int z = (chunkZ << 4) + random.nextInt(15);
-					placedFlowers &= placeFlower(world, new BlockPos(x, 64, z), flower);
+					placedFlowers &= placeFlower(world, new BlockPos(x, 64, z), flowerType);
 				}
 			}
 		}
 
 		// If no legitimate flowers were placed on this chunk, maybe place some false flowers
 		if (!placedFlowers && ThreadLocalRandom.current().nextFloat() <= Prospecting.config.flower_false_chance) {
-			flower = Prospector.getRandomFlowerBlock();
-			if (flower != null) {
+			flowerType = Prospector.getRandomFlowerBlock();
+			if (flowerType != null) {
 				for (int j = 0; j < ThreadLocalRandom.current().nextInt(5) + 1; j++) {
 					if (random.nextFloat() > Prospecting.config.flower_chance) {
 						continue;
@@ -54,13 +55,13 @@ public class WorldGen implements IWorldGenerator {
 
 					int x = (chunkX << 4) + random.nextInt(15);
 					int z = (chunkZ << 4) + random.nextInt(15);
-					placeFlower(world, new BlockPos(x, 64, z), flower);
+					placeFlower(world, new BlockPos(x, 64, z), flowerType);
 				}
 			}
 		}
 	}
 
-	private boolean placeFlower(World world, BlockPos pos, Block flower) {
+	private boolean placeFlower(World world, BlockPos pos, BlockIndicatorFlower.EnumFlowerType flowerType) {
 		// Find the top-most block pos
 		BlockPos topPos = world.getTopSolidOrLiquidBlock(pos);
 		if (topPos.getY() == -1) {
@@ -70,7 +71,7 @@ public class WorldGen implements IWorldGenerator {
 		Block surface = world.getBlockState(topPos.down(1)).getBlock();
 		Block top = world.getBlockState(topPos).getBlock();
 		if ((surface == Blocks.GRASS || surface == Blocks.DIRT) && top == Blocks.AIR) {
-			world.setBlockState(topPos, flower.getDefaultState());
+			Prospecting.FLOWERBLOCK.placeAt(world, topPos, flowerType);
 			return true;
 		}
 

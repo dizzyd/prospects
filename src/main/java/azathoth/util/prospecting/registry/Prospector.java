@@ -1,5 +1,6 @@
 package azathoth.util.prospecting.registry;
 
+import azathoth.util.prospecting.blocks.BlockIndicatorFlower;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Prospector {
 	private static final String IDENTIFIER = "ProspectingData";
 	private static HashMap<Integer, ProspectingSavedData> registry = new HashMap<Integer, ProspectingSavedData>();
-	private static HashMap<String, Block> flower_registry = new HashMap<String, Block>();
+	private static HashMap<String, BlockIndicatorFlower.EnumFlowerType> flower_registry = new HashMap<String, BlockIndicatorFlower.EnumFlowerType>();
 
 	private static ProspectingSavedData loadAndScan(World world, int cx, int cz) {
 		// First, see if we've already got world-data loaded for this dimension
@@ -55,15 +56,16 @@ public class Prospector {
 		return loadAndScan(world, cx, cz).getChunkInfo(cx, cz);
 	}
 
-	public static void registerFlower(String ore, Block f) {
-		flower_registry.put(OreDictCache.normalizeName(ore), f);
+	public static void registerFlower(String ore, BlockIndicatorFlower.EnumFlowerType flowerType) {
+		flower_registry.put(OreDictCache.normalizeName(ore), flowerType);
 	}
 
-	public static Block getFlowerBlock(String ore) {
+	public static BlockIndicatorFlower.EnumFlowerType getFlowerBlock(String ore) {
 		return flower_registry.get(OreDictCache.normalizeName(ore));
 	}
 
-	public static Block getRandomFlowerBlock() {
-		return (Block) flower_registry.values().toArray()[ThreadLocalRandom.current().nextInt(0, flower_registry.size())];
+	public static BlockIndicatorFlower.EnumFlowerType getRandomFlowerBlock() {
+		int index = ThreadLocalRandom.current().nextInt(0, flower_registry.size());
+		return (BlockIndicatorFlower.EnumFlowerType) flower_registry.values().toArray()[index];
 	}
 }

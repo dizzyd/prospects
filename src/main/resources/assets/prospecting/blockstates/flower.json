@@ -1,0 +1,47 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+      "model": "cross"
+    },
+    "variants": {
+      "flowertype": {
+        "affine": {
+          "textures": {"cross": "prospecting:blocks/affine"}
+        },
+        "camellia": {
+          "textures": {"cross": "prospecting:blocks/camellia"}
+        },
+        "clover": {
+          "textures": {"cross": "prospecting:blocks/clover"}
+        },
+        "hauman": {
+          "textures": {"cross": "prospecting:blocks/hauman"}
+        },
+        "horsetail": {
+          "textures": {"cross": "prospecting:blocks/horsetail"}
+        },
+        "leadplant": {
+          "textures": {"cross": "prospecting:blocks/leadplant"}
+        },
+        "malva": {
+          "textures": {"cross": "prospecting:blocks/malva"}
+        },
+        "mustard": {
+          "textures": {"cross": "prospecting:blocks/mustard"}
+        },
+        "poorjoe": {
+          "textures": {"cross": "prospecting:blocks/poorjoe"}
+        },
+        "primrose": {
+          "textures": {"cross": "prospecting:blocks/primrose"}
+        },
+        "shrub_violet": {
+          "textures": {"cross": "prospecting:blocks/shrub_violet"}
+        },
+        "vallozia": {
+          "textures": {"cross": "prospecting:blocks/vallozia"}
+        }
+      }
+    }
+  }
+

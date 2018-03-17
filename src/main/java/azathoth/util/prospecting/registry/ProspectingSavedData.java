@@ -135,7 +135,7 @@ public class ProspectingSavedData extends WorldSavedData {
 			// Create a new chunk info object
 			ChunkInfo cinfo = new ChunkInfo();
 
-			Prospecting.logger.info("Scanning chunk [" + cx + ", " + cz + "]...");
+			Prospecting.logger.debug("Scanning chunk [" + cx + ", " + cz + "]...");
 			for (int i = 1; i <= 256; i++) {
 				for (int j = 0; j < 16; j++) {
 					for (int k = 0; k < 16; k++) {
@@ -144,7 +144,7 @@ public class ProspectingSavedData extends WorldSavedData {
 						b = bs.getBlock();
 
 						// Fast-path on common blocks
-						if (b == Blocks.AIR || b == Blocks.STONE || b == Blocks.DIRT) {
+						if (b == Blocks.AIR || b == Blocks.STONE || b == Blocks.DIRT || b == Blocks.GRAVEL) {
 							continue;
 						}
 
