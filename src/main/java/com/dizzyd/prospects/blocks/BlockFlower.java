@@ -29,40 +29,40 @@ public class BlockFlower extends BlockBush {
 	@GameRegistry.ObjectHolder(Prospects.MODID + ":flower")
 	public static BlockFlower INSTANCE;
 
-	public static final PropertyEnum<EnumType> FLOWERTYPE = PropertyEnum.<EnumType>create("flowertype", EnumType.class);
+	public static final PropertyEnum<EnumType> TYPE = PropertyEnum.<EnumType>create("type", EnumType.class);
 
 	public BlockFlower() {
 		super(Material.PLANTS);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FLOWERTYPE, EnumType.AFFINE));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, EnumType.AFFINE));
 		this.setSoundType(SoundType.PLANT);
 		this.setUnlocalizedName(Prospects.MODID + ".flower");
 		this.setRegistryName(Prospects.MODID, "flower");
 	}
 
 	public void placeAt(World world, BlockPos pos, EnumType flowerType) {
-		world.setBlockState(pos, this.getDefaultState().withProperty(FLOWERTYPE, flowerType));
+		world.setBlockState(pos, this.getDefaultState().withProperty(TYPE, flowerType));
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FLOWERTYPE});
+		return new BlockStateContainer(this, new IProperty[] {TYPE});
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FLOWERTYPE).getMeta();
+		return state.getValue(TYPE).getMeta();
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FLOWERTYPE, EnumType.byMetadata(meta));
+		return this.getDefaultState().withProperty(TYPE, EnumType.byMetadata(meta));
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
 		for (EnumType t : EnumType.values()) {
 			Item i = Item.getItemFromBlock(this);
-			ModelResourceLocation mr = new ModelResourceLocation(getRegistryName(), "flowertype=" + t.getName());
+			ModelResourceLocation mr = new ModelResourceLocation(getRegistryName(), "type=" + t.getName());
 			ModelLoader.setCustomModelResourceLocation(i, t.getMeta(), mr);
 		}
 	}
@@ -94,7 +94,9 @@ public class BlockFlower extends BlockBush {
 		POORJOE(8, "poorjoe", "Iron"),
 		PRIMROSE(9, "primrose", "Uranium"),
 		SHRUB_VIOLET(10, "shrub_violet", "Nickel"),
-		VALLOZIA(11, "vallozia", "Diamond");
+		VALLOZIA(11, "vallozia", "Diamond"),
+		FLAME_LILY(12, "flame_lily", "Redstone"),
+		TANSY(13, "tansy", "Tin");
 
 		private static final EnumType[] META_LOOKUP = new EnumType[values().length];
 

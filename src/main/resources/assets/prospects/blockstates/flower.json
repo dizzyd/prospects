@@ -4,7 +4,7 @@
       "model": "cross"
     },
     "variants": {
-      "flowertype": {
+      "type": {
         "affine": {
           "textures": {"cross": "prospects:blocks/affine"}
         },
@@ -40,6 +40,12 @@
         },
         "vallozia": {
           "textures": {"cross": "prospects:blocks/vallozia"}
+        },
+        "flame_lily": {
+          "textures": {"cross": "prospects:blocks/flame_lily"}
+        },
+        "tansy": {
+          "textures": {"cross": "prospects:blocks/tansy"}
         }
       }
     }
