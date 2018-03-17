@@ -1,6 +1,6 @@
-package azathoth.util.prospecting.registry;
+package com.dizzyd.prospects.registry;
 
-import azathoth.util.prospecting.Prospecting;
+import com.dizzyd.prospects.Prospecting;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;

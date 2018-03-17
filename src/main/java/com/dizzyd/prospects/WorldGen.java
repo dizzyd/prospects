@@ -1,7 +1,7 @@
-package azathoth.util.prospecting;
+package com.dizzyd.prospects;
 
-import azathoth.util.prospecting.blocks.BlockFlower;
-import azathoth.util.prospecting.registry.Prospector;
+import com.dizzyd.prospects.blocks.BlockFlower;
+import com.dizzyd.prospects.registry.Prospector;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;

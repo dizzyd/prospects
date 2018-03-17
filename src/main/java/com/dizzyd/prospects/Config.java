@@ -1,4 +1,4 @@
-package azathoth.util.prospecting;
+package com.dizzyd.prospects;
 
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.Configuration;

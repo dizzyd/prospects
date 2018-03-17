@@ -1,10 +1,9 @@
-package azathoth.util.prospecting.proxy;
+package com.dizzyd.prospects.proxy;
 
-import azathoth.util.prospecting.Prospecting;
-import azathoth.util.prospecting.blocks.BlockFlower;
-import azathoth.util.prospecting.items.PanItem;
-import azathoth.util.prospecting.items.PickItem;
-import azathoth.util.prospecting.items.SifterItem;
+import com.dizzyd.prospects.blocks.BlockFlower;
+import com.dizzyd.prospects.items.PanItem;
+import com.dizzyd.prospects.items.PickItem;
+import com.dizzyd.prospects.items.SifterItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;

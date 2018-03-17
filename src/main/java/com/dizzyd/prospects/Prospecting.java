@@ -1,11 +1,10 @@
-package azathoth.util.prospecting;
+package com.dizzyd.prospects;
 
-import azathoth.util.prospecting.blocks.BlockFlower;
-import azathoth.util.prospecting.items.PanItem;
-import azathoth.util.prospecting.items.PickItem;
-import azathoth.util.prospecting.items.SifterItem;
-import azathoth.util.prospecting.proxy.CommonProxy;
-import azathoth.util.prospecting.registry.OreDictCache;
+import com.dizzyd.prospects.items.PanItem;
+import com.dizzyd.prospects.items.PickItem;
+import com.dizzyd.prospects.items.SifterItem;
+import com.dizzyd.prospects.proxy.CommonProxy;
+import com.dizzyd.prospects.registry.OreDictCache;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

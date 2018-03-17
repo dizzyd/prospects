@@ -1,7 +1,7 @@
-package azathoth.util.prospecting;
+package com.dizzyd.prospects;
 
-import azathoth.util.prospecting.registry.ProspectingSavedData;
-import azathoth.util.prospecting.registry.Prospector;
+import com.dizzyd.prospects.registry.ProspectingSavedData;
+import com.dizzyd.prospects.registry.Prospector;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

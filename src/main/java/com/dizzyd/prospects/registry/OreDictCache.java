@@ -1,4 +1,4 @@
-package azathoth.util.prospecting.registry;
+package com.dizzyd.prospects.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

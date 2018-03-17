@@ -1,6 +1,7 @@
-package azathoth.util.prospecting.items;
+package com.dizzyd.prospects.items;
 
-import azathoth.util.prospecting.Prospecting;
+import com.dizzyd.prospects.Prospecting;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -8,27 +9,28 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class PickItem extends BaseItem {
+public class SifterItem extends BaseItem {
 
-	public static final String NAME = "prospecting_pick";
+	public static final String NAME = "prospecting_sifter";
 
 	@GameRegistry.ObjectHolder(Prospecting.MODID + ":" + NAME)
-	public static PickItem INSTANCE;
+	public static SifterItem INSTANCE;
 
-	public PickItem() {
+	public SifterItem() {
 		super(NAME);
 	}
 
 	@Override
 	protected boolean shouldProspect(World world, BlockPos pos) {
-		return world.getBlockState(pos).getBlock() == Blocks.STONE;
+		Block b = world.getBlockState(pos).getBlock();
+		return (b == Blocks.GRAVEL || b == Blocks.DIRT || b == Blocks.SAND);
 	}
 
 	@Override
 	public void registerRecipe() {
 		GameRegistry.addShapedRecipe(getRecipeName(), null, new ItemStack(INSTANCE),
 				new Object[]{
-						"iis", "  s", 'i', Items.IRON_INGOT, 's', Items.STICK
+						"s s", "s#s", "s#s", 's', Items.STICK, '#', Items.STRING
 				});
 
 	}

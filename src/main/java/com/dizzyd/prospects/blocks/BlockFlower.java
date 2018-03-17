@@ -1,7 +1,7 @@
-package azathoth.util.prospecting.blocks;
+package com.dizzyd.prospects.blocks;
 
-import azathoth.util.prospecting.Prospecting;
-import azathoth.util.prospecting.registry.Prospector;
+import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.registry.Prospector;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;

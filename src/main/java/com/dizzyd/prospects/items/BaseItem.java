@@ -1,7 +1,7 @@
-package azathoth.util.prospecting.items;
+package com.dizzyd.prospects.items;
 
-import azathoth.util.prospecting.Prospecting;
-import azathoth.util.prospecting.registry.Prospector;
+import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.registry.Prospector;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

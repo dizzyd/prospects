@@ -1,6 +1,6 @@
-package azathoth.util.prospecting.registry;
+package com.dizzyd.prospects.registry;
 
-import azathoth.util.prospecting.blocks.BlockFlower;
+import com.dizzyd.prospects.blocks.BlockFlower;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
