@@ -1,6 +1,7 @@
 package azathoth.util.prospecting.proxy;
 
 import azathoth.util.prospecting.Prospecting;
+import azathoth.util.prospecting.blocks.BlockFlower;
 import azathoth.util.prospecting.items.PanItem;
 import azathoth.util.prospecting.items.PickItem;
 import azathoth.util.prospecting.items.SifterItem;
@@ -15,13 +16,13 @@ public class CommonProxy {
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		event.getRegistry().register(Prospecting.FLOWERBLOCK);
+		event.getRegistry().register(new BlockFlower());
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		Prospecting.FLOWERBLOCK.registerItems(event.getRegistry());
+		BlockFlower.INSTANCE.registerItems(event.getRegistry());
 
-		event.getRegistry().registerAll(PanItem.INSTANCE, PickItem.INSTANCE, SifterItem.INSTANCE);
+		event.getRegistry().registerAll(new PanItem(), new PickItem(), new SifterItem());
 	}
 }

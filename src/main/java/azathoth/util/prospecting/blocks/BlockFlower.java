@@ -19,11 +19,15 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockFlower extends BlockBush {
+
+	@GameRegistry.ObjectHolder(Prospecting.MODID + ":flower")
+	public static BlockFlower INSTANCE;
 
 	public static final PropertyEnum<EnumType> FLOWERTYPE = PropertyEnum.<EnumType>create("flowertype", EnumType.class);
 
@@ -71,7 +75,7 @@ public class BlockFlower extends BlockBush {
 	}
 
 	public void registerItems(IForgeRegistry<Item> registry) {
-		Item item = new ItemMultiTexture(Prospecting.FLOWERBLOCK, Prospecting.FLOWERBLOCK,
+		Item item = new ItemMultiTexture(BlockFlower.INSTANCE, BlockFlower.INSTANCE,
 				stack -> "flowertype=" + EnumType.byMetadata(stack.getMetadata()).getName())
 				.setRegistryName(this.getRegistryName())
 				.setUnlocalizedName(this.getUnlocalizedName());

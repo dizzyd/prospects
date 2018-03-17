@@ -1,6 +1,7 @@
 package azathoth.util.prospecting.proxy;
 
 import azathoth.util.prospecting.Prospecting;
+import azathoth.util.prospecting.blocks.BlockFlower;
 import azathoth.util.prospecting.items.PanItem;
 import azathoth.util.prospecting.items.PickItem;
 import azathoth.util.prospecting.items.SifterItem;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		Prospecting.FLOWERBLOCK.initModel();
+		BlockFlower.INSTANCE.initModel();
 
 		PanItem.INSTANCE.initModel();
 		PickItem.INSTANCE.initModel();

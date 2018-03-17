@@ -1,5 +1,6 @@
 package azathoth.util.prospecting.items;
 
+import azathoth.util.prospecting.Prospecting;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -9,10 +10,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class SifterItem extends BaseItem {
-	public static SifterItem INSTANCE = new SifterItem();
+
+	public static final String NAME = "prospecting_sifter";
+
+	@GameRegistry.ObjectHolder(Prospecting.MODID + ":" + NAME)
+	public static SifterItem INSTANCE;
 
 	public SifterItem() {
-		super("prospecting_sifter");
+		super(NAME);
 	}
 
 	@Override

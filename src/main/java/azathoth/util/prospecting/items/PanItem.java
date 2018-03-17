@@ -9,10 +9,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PanItem extends BaseItem {
-	public static final PanItem INSTANCE = new PanItem();
+
+	public static final String NAME = "prospecting_pan";
+
+	@GameRegistry.ObjectHolder(Prospecting.MODID + ":" + NAME)
+	public static PanItem INSTANCE;
 
 	public PanItem() {
-		super("prospecting_pan");
+		super(NAME);
 	}
 
 	@Override

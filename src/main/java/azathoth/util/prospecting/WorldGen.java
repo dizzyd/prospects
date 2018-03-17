@@ -69,7 +69,7 @@ public class WorldGen implements IWorldGenerator {
 		Block surface = world.getBlockState(topPos.down(1)).getBlock();
 		Block top = world.getBlockState(topPos).getBlock();
 		if ((surface == Blocks.GRASS || surface == Blocks.DIRT) && top == Blocks.AIR) {
-			Prospecting.FLOWERBLOCK.placeAt(world, topPos, flowerType);
+			BlockFlower.INSTANCE.placeAt(world, topPos, flowerType);
 			return true;
 		}
 

@@ -32,8 +32,6 @@ public class Prospecting {
 
 	public static Config config;
 
-	public static BlockFlower FLOWERBLOCK = new BlockFlower();
-
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		config = new Config(event);

@@ -1,5 +1,6 @@
 package azathoth.util.prospecting.items;
 
+import azathoth.util.prospecting.Prospecting;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -8,10 +9,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PickItem extends BaseItem {
-	public static PickItem INSTANCE = new PickItem();
+
+	public static final String NAME = "prospecting_pick";
+
+	@GameRegistry.ObjectHolder(Prospecting.MODID + ":" + NAME)
+	public static PickItem INSTANCE;
 
 	public PickItem() {
-		super("prospecting_pick");
+		super(NAME);
 	}
 
 	@Override
