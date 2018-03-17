@@ -76,7 +76,7 @@ public class BlockFlower extends BlockBush {
 
 	public void registerItems(IForgeRegistry<Item> registry) {
 		Item item = new ItemMultiTexture(BlockFlower.INSTANCE, BlockFlower.INSTANCE,
-				stack -> "flowertype=" + EnumType.byMetadata(stack.getMetadata()).getName())
+				stack -> EnumType.byMetadata(stack.getMetadata()).getName())
 				.setRegistryName(this.getRegistryName())
 				.setUnlocalizedName(this.getUnlocalizedName());
 		registry.register(item);

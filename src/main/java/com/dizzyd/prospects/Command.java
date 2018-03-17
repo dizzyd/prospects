@@ -12,12 +12,12 @@ public class Command extends CommandTreeBase {
 
 	@Override
 	public String getName() {
-		return "prospect";
+		return "prospects";
 	}
 
 	@Override
 	public String getUsage(ICommandSender sender) {
-		return "prospect.usage";
+		return "cmd.prospects.usage";
 	}
 
 	public Command() {
@@ -33,7 +33,7 @@ public class Command extends CommandTreeBase {
 
 		@Override
 		public String getUsage(ICommandSender sender) {
-			return "prospect.info.usage";
+			return "cmd.prospects.info.usage";
 		}
 
 		@Override
@@ -47,7 +47,7 @@ public class Command extends CommandTreeBase {
 				int nuggetCount = info.nuggets.getOrDefault(ore, 0);
 				buf.append(" " + ore + ": " + Math.round(oreCount) + '(' + nuggetCount + ')');
 			}
-			Command.notifyCommandListener(sender, this, "prospect.info", cx, cz, buf.toString());
+			Command.notifyCommandListener(sender, this, "cmd.prospects.info", cx, cz, buf.toString());
 		}
 	}
 }
