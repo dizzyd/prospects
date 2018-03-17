@@ -1,6 +1,6 @@
 package com.dizzyd.prospects.blocks;
 
-import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.Prospects;
 import com.dizzyd.prospects.registry.Prospector;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
@@ -26,7 +26,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class BlockFlower extends BlockBush {
 
-	@GameRegistry.ObjectHolder(Prospecting.MODID + ":flower")
+	@GameRegistry.ObjectHolder(Prospects.MODID + ":flower")
 	public static BlockFlower INSTANCE;
 
 	public static final PropertyEnum<EnumType> FLOWERTYPE = PropertyEnum.<EnumType>create("flowertype", EnumType.class);
@@ -35,8 +35,8 @@ public class BlockFlower extends BlockBush {
 		super(Material.PLANTS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FLOWERTYPE, EnumType.AFFINE));
 		this.setSoundType(SoundType.PLANT);
-		this.setUnlocalizedName(Prospecting.MODID + ".flower");
-		this.setRegistryName(Prospecting.MODID, "flower");
+		this.setUnlocalizedName(Prospects.MODID + ".flower");
+		this.setRegistryName(Prospects.MODID, "flower");
 	}
 
 	public void placeAt(World world, BlockPos pos, EnumType flowerType) {

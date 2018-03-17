@@ -1,6 +1,6 @@
 package com.dizzyd.prospects.items;
 
-import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.Prospects;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ public class PickItem extends BaseItem {
 
 	public static final String NAME = "prospecting_pick";
 
-	@GameRegistry.ObjectHolder(Prospecting.MODID + ":" + NAME)
+	@GameRegistry.ObjectHolder(Prospects.MODID + ":" + NAME)
 	public static PickItem INSTANCE;
 
 	public PickItem() {

@@ -1,6 +1,6 @@
 {
     "parent": "builtin/generated",
     "textures": {
-      "layer0": "prospecting:items/sifter"
+      "layer0": "prospects:items/sifter"
     }
   }

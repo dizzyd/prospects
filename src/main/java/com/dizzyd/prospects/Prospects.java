@@ -15,19 +15,20 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Prospecting.MODID, name = Prospecting.NAME, version = Prospecting.VERSION, acceptedMinecraftVersions = "[1.12]", useMetadata = true)
-public class Prospecting {
-	public static final String MODID = "prospecting";
-	public static final String NAME = "Prospecting";
+@Mod(modid = Prospects.MODID, name = Prospects.NAME, version = Prospects.VERSION, acceptedMinecraftVersions = "[1.12]", useMetadata = true)
+public class Prospects {
+	public static final String MODID = "prospects";
+	public static final String NAME = "Prospects";
 	public static final String VERSION = "0.0.1";
 
-	@SidedProxy(clientSide = "azathoth.util.prospecting.proxy.ClientProxy", serverSide = "azathoth.util.prospecting.proxy.CommonProxy")
+	@SidedProxy(clientSide = "com.dizzyd.prospects.proxy.ClientProxy",
+				serverSide = "com.dizzyd.prospects.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	@Mod.Instance
-	public static Prospecting instance;
+	public static Prospects instance;
 
-	public static Logger logger = LogManager.getLogger("Prospecting");
+	public static Logger logger = LogManager.getLogger("Prospects");
 
 	public static Config config;
 

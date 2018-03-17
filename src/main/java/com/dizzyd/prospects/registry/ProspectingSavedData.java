@@ -1,6 +1,6 @@
 package com.dizzyd.prospects.registry;
 
-import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.Prospects;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -38,7 +38,7 @@ public class ProspectingSavedData extends WorldSavedData {
 
 	@Override
 	public void readFromNBT(NBTTagCompound t) {
-		Prospecting.logger.debug("Reading from NBT...");
+		Prospects.logger.debug("Reading from NBT...");
 
 		NBTTagList chunkList = t.getTagList("chunks", Constants.NBT.TAG_COMPOUND);
 		for (int i = 0; i < chunkList.tagCount(); i++) {
@@ -65,7 +65,7 @@ public class ProspectingSavedData extends WorldSavedData {
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		Prospecting.logger.debug("Writing to NBT...");
+		Prospects.logger.debug("Writing to NBT...");
 
 		NBTTagList chunkList = new NBTTagList();
 		for (Map.Entry<Long, ChunkInfo> c : this.chunks.entrySet()) {
@@ -79,7 +79,7 @@ public class ProspectingSavedData extends WorldSavedData {
 			chunkData.setInteger("cz", cz);
 			chunkData.setLong("expiry", chunk.expiry);
 
-			Prospecting.logger.debug("Writing chunk: " + cx + "," + cz);
+			Prospects.logger.debug("Writing chunk: " + cx + "," + cz);
 
 			NBTTagCompound oreData = new NBTTagCompound();
 			for (Map.Entry<String, Float> ores : chunk.ores.entrySet()) {
@@ -135,7 +135,7 @@ public class ProspectingSavedData extends WorldSavedData {
 			// Create a new chunk info object
 			ChunkInfo cinfo = new ChunkInfo();
 
-			Prospecting.logger.debug("Scanning chunk [" + cx + ", " + cz + "]...");
+			Prospects.logger.debug("Scanning chunk [" + cx + ", " + cz + "]...");
 			for (int i = 1; i <= 256; i++) {
 				for (int j = 0; j < 16; j++) {
 					for (int k = 0; k < 16; k++) {
@@ -160,10 +160,10 @@ public class ProspectingSavedData extends WorldSavedData {
 				}
 			}
 
-			Prospecting.logger.debug("Total blocks scanned: " + total);
-			Prospecting.logger.debug("Ore types found: " + cinfo.ores.size());
+			Prospects.logger.debug("Total blocks scanned: " + total);
+			Prospects.logger.debug("Ore types found: " + cinfo.ores.size());
 
-			cinfo.expiry = world.getWorldTime() + Prospecting.config.chunk_expiry;
+			cinfo.expiry = world.getWorldTime() + Prospects.config.chunk_expiry;
 
 			// For each of the ores, setup a counter to track number of prospecting nuggets
 			for (Map.Entry<String, Float> ore : cinfo.ores.entrySet()) {
@@ -181,9 +181,9 @@ public class ProspectingSavedData extends WorldSavedData {
 	}
 
 	private int getNuggetAmount(float amt) {
-		int r = (int) Math.ceil(amt / Prospecting.config.ore_per_nugget);
-		if (r > Prospecting.config.max_nuggets) {
-			return Prospecting.config.max_nuggets;
+		int r = (int) Math.ceil(amt / Prospects.config.ore_per_nugget);
+		if (r > Prospects.config.max_nuggets) {
+			return Prospects.config.max_nuggets;
 		} else if (r < 0) {
 			return 0;
 		}

@@ -31,7 +31,7 @@ public class WorldGen implements IWorldGenerator {
 			flowerType = Prospector.getFlowerBlock(ore);
 			if (flowerType != null) {
 				for (int i = 0; i < getFlowerCount(ores.get(ore)); i++) {
-					if (random.nextFloat() > Prospecting.config.flower_chance) {
+					if (random.nextFloat() > Prospects.config.flower_chance) {
 						continue;
 					}
 
@@ -43,11 +43,11 @@ public class WorldGen implements IWorldGenerator {
 		}
 
 		// If no legitimate flowers were placed on this chunk, maybe place some false flowers
-		if (!placedFlowers && ThreadLocalRandom.current().nextFloat() <= Prospecting.config.flower_false_chance) {
+		if (!placedFlowers && ThreadLocalRandom.current().nextFloat() <= Prospects.config.flower_false_chance) {
 			flowerType = Prospector.getRandomFlowerBlock();
 			if (flowerType != null) {
 				for (int j = 0; j < ThreadLocalRandom.current().nextInt(5) + 1; j++) {
-					if (random.nextFloat() > Prospecting.config.flower_chance) {
+					if (random.nextFloat() > Prospects.config.flower_chance) {
 						continue;
 					}
 
@@ -77,7 +77,7 @@ public class WorldGen implements IWorldGenerator {
 	}
 
 	private int getFlowerCount(Float oreAmt) {
-		double count = Math.ceil(oreAmt / Prospecting.config.ore_per_flower);
-		return (int)Math.min(Math.round(count), (long)Prospecting.config.max_flowers);
+		double count = Math.ceil(oreAmt / Prospects.config.ore_per_flower);
+		return (int)Math.min(Math.round(count), (long) Prospects.config.max_flowers);
 	}
 }

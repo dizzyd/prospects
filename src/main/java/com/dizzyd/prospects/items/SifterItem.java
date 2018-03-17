@@ -1,6 +1,6 @@
 package com.dizzyd.prospects.items;
 
-import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.Prospects;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -13,7 +13,7 @@ public class SifterItem extends BaseItem {
 
 	public static final String NAME = "prospecting_sifter";
 
-	@GameRegistry.ObjectHolder(Prospecting.MODID + ":" + NAME)
+	@GameRegistry.ObjectHolder(Prospects.MODID + ":" + NAME)
 	public static SifterItem INSTANCE;
 
 	public SifterItem() {

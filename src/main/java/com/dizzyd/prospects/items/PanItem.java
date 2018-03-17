@@ -1,6 +1,6 @@
 package com.dizzyd.prospects.items;
 
-import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.Prospects;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -11,7 +11,7 @@ public class PanItem extends BaseItem {
 
 	public static final String NAME = "prospecting_pan";
 
-	@GameRegistry.ObjectHolder(Prospecting.MODID + ":" + NAME)
+	@GameRegistry.ObjectHolder(Prospects.MODID + ":" + NAME)
 	public static PanItem INSTANCE;
 
 	public PanItem() {

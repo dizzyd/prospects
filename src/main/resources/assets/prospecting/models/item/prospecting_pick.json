@@ -1,6 +1,6 @@
 {
     "parent": "builtin/generated",
     "textures": {
-      "layer0": "prospecting:items/pick"
+      "layer0": "prospects:items/pick"
     }
   }

@@ -1,6 +1,6 @@
 package com.dizzyd.prospects.items;
 
-import com.dizzyd.prospects.Prospecting;
+import com.dizzyd.prospects.Prospects;
 import com.dizzyd.prospects.registry.Prospector;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,15 +18,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BaseItem extends Item {
 	protected BaseItem(String name) {
-		setRegistryName(Prospecting.MODID, name);
-		setUnlocalizedName(Prospecting.MODID + "." + name);
+		setRegistryName(Prospects.MODID, name);
+		setUnlocalizedName(Prospects.MODID + "." + name);
 		this.setCreativeTab(CreativeTabs.MISC);
 	}
 
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (shouldProspect(world, pos)) {
 			if (!world.isRemote) {
-				Prospecting.logger.debug("Prospecting...");
+				Prospects.logger.debug("Prospects...");
 				Prospector.spawnNugget(world, pos);
 			}
 			return EnumActionResult.SUCCESS;

@@ -6,40 +6,40 @@
     "variants": {
       "flowertype": {
         "affine": {
-          "textures": {"cross": "prospecting:blocks/affine"}
+          "textures": {"cross": "prospects:blocks/affine"}
         },
         "camellia": {
-          "textures": {"cross": "prospecting:blocks/camellia"}
+          "textures": {"cross": "prospects:blocks/camellia"}
         },
         "clover": {
-          "textures": {"cross": "prospecting:blocks/clover"}
+          "textures": {"cross": "prospects:blocks/clover"}
         },
         "hauman": {
-          "textures": {"cross": "prospecting:blocks/hauman"}
+          "textures": {"cross": "prospects:blocks/hauman"}
         },
         "horsetail": {
-          "textures": {"cross": "prospecting:blocks/horsetail"}
+          "textures": {"cross": "prospects:blocks/horsetail"}
         },
         "leadplant": {
-          "textures": {"cross": "prospecting:blocks/leadplant"}
+          "textures": {"cross": "prospects:blocks/leadplant"}
         },
         "malva": {
-          "textures": {"cross": "prospecting:blocks/malva"}
+          "textures": {"cross": "prospects:blocks/malva"}
         },
         "mustard": {
-          "textures": {"cross": "prospecting:blocks/mustard"}
+          "textures": {"cross": "prospects:blocks/mustard"}
         },
         "poorjoe": {
-          "textures": {"cross": "prospecting:blocks/poorjoe"}
+          "textures": {"cross": "prospects:blocks/poorjoe"}
         },
         "primrose": {
-          "textures": {"cross": "prospecting:blocks/primrose"}
+          "textures": {"cross": "prospects:blocks/primrose"}
         },
         "shrub_violet": {
-          "textures": {"cross": "prospecting:blocks/shrub_violet"}
+          "textures": {"cross": "prospects:blocks/shrub_violet"}
         },
         "vallozia": {
-          "textures": {"cross": "prospecting:blocks/vallozia"}
+          "textures": {"cross": "prospects:blocks/vallozia"}
         }
       }
     }
