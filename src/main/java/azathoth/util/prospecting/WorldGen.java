@@ -1,7 +1,6 @@
 package azathoth.util.prospecting;
 
-import azathoth.util.prospecting.Prospecting;
-import azathoth.util.prospecting.blocks.BlockIndicatorFlower;
+import azathoth.util.prospecting.blocks.BlockFlower;
 import azathoth.util.prospecting.registry.Prospector;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -13,7 +12,6 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldGen implements IWorldGenerator {
@@ -23,7 +21,7 @@ public class WorldGen implements IWorldGenerator {
 			return;
 		}
 
-		BlockIndicatorFlower.EnumFlowerType flowerType;
+		BlockFlower.EnumType flowerType;
 		boolean placedFlowers = false;
 
 		// Get a ores and their counts for this chunk
@@ -61,7 +59,7 @@ public class WorldGen implements IWorldGenerator {
 		}
 	}
 
-	private boolean placeFlower(World world, BlockPos pos, BlockIndicatorFlower.EnumFlowerType flowerType) {
+	private boolean placeFlower(World world, BlockPos pos, BlockFlower.EnumType flowerType) {
 		// Find the top-most block pos
 		BlockPos topPos = world.getTopSolidOrLiquidBlock(pos);
 		if (topPos.getY() == -1) {

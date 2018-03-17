@@ -23,19 +23,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class BlockIndicatorFlower extends BlockBush {
+public class BlockFlower extends BlockBush {
 
-	public static final PropertyEnum<EnumFlowerType> FLOWERTYPE = PropertyEnum.<EnumFlowerType>create("flowertype", EnumFlowerType.class);
+	public static final PropertyEnum<EnumType> FLOWERTYPE = PropertyEnum.<EnumType>create("flowertype", EnumType.class);
 
-	public BlockIndicatorFlower() {
+	public BlockFlower() {
 		super(Material.PLANTS);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FLOWERTYPE, EnumFlowerType.AFFINE));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FLOWERTYPE, EnumType.AFFINE));
 		this.setSoundType(SoundType.PLANT);
 		this.setUnlocalizedName(Prospecting.MODID + ".flower");
 		this.setRegistryName(Prospecting.MODID, "flower");
 	}
 
-	public void placeAt(World world, BlockPos pos, EnumFlowerType flowerType) {
+	public void placeAt(World world, BlockPos pos, EnumType flowerType) {
 		world.setBlockState(pos, this.getDefaultState().withProperty(FLOWERTYPE, flowerType));
 	}
 
@@ -51,12 +51,12 @@ public class BlockIndicatorFlower extends BlockBush {
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FLOWERTYPE, EnumFlowerType.byMetadata(meta));
+		return this.getDefaultState().withProperty(FLOWERTYPE, EnumType.byMetadata(meta));
 	}
 
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
-		for (EnumFlowerType t : EnumFlowerType.values()) {
+		for (EnumType t : EnumType.values()) {
 			Item i = Item.getItemFromBlock(this);
 			ModelResourceLocation mr = new ModelResourceLocation(getRegistryName(), "flowertype=" + t.getName());
 			ModelLoader.setCustomModelResourceLocation(i, t.getMeta(), mr);
@@ -65,20 +65,20 @@ public class BlockIndicatorFlower extends BlockBush {
 
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-		for (EnumFlowerType t: EnumFlowerType.values()) {
+		for (EnumType t: EnumType.values()) {
 			items.add(new ItemStack(this, 1, t.getMeta()));
 		}
 	}
 
 	public void registerItems(IForgeRegistry<Item> registry) {
 		Item item = new ItemMultiTexture(Prospecting.FLOWERBLOCK, Prospecting.FLOWERBLOCK,
-				stack -> "flowertype=" + EnumFlowerType.byMetadata(stack.getMetadata()).getName())
+				stack -> "flowertype=" + EnumType.byMetadata(stack.getMetadata()).getName())
 				.setRegistryName(this.getRegistryName())
 				.setUnlocalizedName(this.getUnlocalizedName());
 		registry.register(item);
 	}
 
-	public static enum EnumFlowerType implements IStringSerializable {
+	public static enum EnumType implements IStringSerializable {
 		AFFINE(0, "affine", "Aluminum"),
 		CAMELLIA(1, "camellia", "Florite"),
 		CLOVER(2, "clover", "Zinc"),
@@ -92,13 +92,13 @@ public class BlockIndicatorFlower extends BlockBush {
 		SHRUB_VIOLET(10, "shrub_violet", "Nickel"),
 		VALLOZIA(11, "vallozia", "Diamond");
 
-		private static final EnumFlowerType[] META_LOOKUP = new EnumFlowerType[values().length];
+		private static final EnumType[] META_LOOKUP = new EnumType[values().length];
 
 		private final int meta;
 		private final String name;
 		private final String ore;
 
-		private EnumFlowerType(int meta, String name, String ore) {
+		private EnumType(int meta, String name, String ore) {
 			this.meta = meta;
 			this.name = name;
 			this.ore = ore;
@@ -112,7 +112,7 @@ public class BlockIndicatorFlower extends BlockBush {
 
 		public String toString() { return this.name; }
 
-		public static EnumFlowerType byMetadata(int meta) {
+		public static EnumType byMetadata(int meta) {
 			if (meta < 0 || meta >= META_LOOKUP.length) {
 				meta = 0;
 			}
@@ -120,7 +120,7 @@ public class BlockIndicatorFlower extends BlockBush {
 		}
 
 		static {
-			for (EnumFlowerType t : values()) {
+			for (EnumType t : values()) {
 				META_LOOKUP[t.meta] = t;
 				Prospector.registerFlower(t.getOre(), t);
 			}

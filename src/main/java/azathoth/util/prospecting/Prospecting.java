@@ -1,6 +1,6 @@
 package azathoth.util.prospecting;
 
-import azathoth.util.prospecting.blocks.BlockIndicatorFlower;
+import azathoth.util.prospecting.blocks.BlockFlower;
 import azathoth.util.prospecting.items.PanItem;
 import azathoth.util.prospecting.items.PickItem;
 import azathoth.util.prospecting.items.SifterItem;
@@ -32,7 +32,7 @@ public class Prospecting {
 
 	public static Config config;
 
-	public static BlockIndicatorFlower FLOWERBLOCK = new BlockIndicatorFlower();
+	public static BlockFlower FLOWERBLOCK = new BlockFlower();
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
