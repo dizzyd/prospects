@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PickItem extends BaseItem {
 
-	public static final String NAME = "prospecting_pick";
+	public static final String NAME = "pick";
 
 	@GameRegistry.ObjectHolder(Prospects.MODID + ":" + NAME)
 	public static PickItem INSTANCE;

@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PanItem extends BaseItem {
 
-	public static final String NAME = "prospecting_pan";
+	public static final String NAME = "pan";
 
 	@GameRegistry.ObjectHolder(Prospects.MODID + ":" + NAME)
 	public static PanItem INSTANCE;

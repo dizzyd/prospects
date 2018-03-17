@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class SifterItem extends BaseItem {
 
-	public static final String NAME = "prospecting_sifter";
+	public static final String NAME = "sifter";
 
 	@GameRegistry.ObjectHolder(Prospects.MODID + ":" + NAME)
 	public static SifterItem INSTANCE;
