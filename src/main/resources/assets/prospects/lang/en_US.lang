@@ -18,5 +18,10 @@ tile.prospects.flower.flame_lily.name=Flame Lily
 tile.prospects.flower.tansy.name=Tansy
 
 cmd.prospects.usage=
-cmd.prospects.info=Ores in [%d, %d]:%s
-cmd.prospects.info.usage=Displays ores and nuggets in current chunk
+cmd.prospects.oreinfo=Ores in [%d, %d]:%s
+cmd.prospects.oreinfo.usage=Displays ores and nuggets in current chunk
+
+cmd.prospects.showconfig=Config:%s
+
+cmd.prospects.reloadconfig.ok=Configuration reloaded.
+cmd.prospects.reloadconfig.error=Configuration reload failed: %s
