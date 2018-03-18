@@ -40,7 +40,7 @@ public class Config {
 				"The maximum number of nuggets to spawn in a given chunk for each ore.");
 
 		flower_chance = configRoot.getFloat("Flower Chance", "Probabilities",
-				0.8f, 0f, 1f,
+				0.95f, 0f, 1f,
 				"The chance that a flower will be generated, when a chunk contains ore. The number of flowers produced is determined by the \"Ore Per Flower\" setting.");
 
 		flower_false_chance = configRoot.getFloat("Flower False Positive Chance", "Probabilities",
