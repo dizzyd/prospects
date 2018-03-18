@@ -51,7 +51,7 @@ public class WorldGen implements IWorldGenerator {
 		}
 
 		// If no legitimate flowers were placed on this chunk, maybe place some false flowers
-		if (!placedFlowers && ThreadLocalRandom.current().nextFloat() <= Prospects.config.flower_false_chance) {
+		if (!placedFlowers && Prospects.config.flower_false_chance > 0 && ThreadLocalRandom.current().nextFloat() <= Prospects.config.flower_false_chance) {
 			flowerType = (BlockFlower.EnumType)FLOWERS_ARRAY[ThreadLocalRandom.current().nextInt(0, FLOWERS_ARRAY.length)];
 			if (flowerType != null) {
 				for (int j = 0; j < ThreadLocalRandom.current().nextInt(5) + 1; j++) {
