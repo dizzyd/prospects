@@ -68,7 +68,7 @@ public class WorldGen implements IWorldGenerator {
 	}
 
 	private int getFlowerCount(Float oreAmt) {
-		double count = Math.ceil(oreAmt / Prospects.config.ore_per_flower);
+		double count = oreAmt / Prospects.config.ore_per_flower;
 		return (int)Math.min(Math.round(count), (long) Prospects.config.max_flowers);
 	}
 }
