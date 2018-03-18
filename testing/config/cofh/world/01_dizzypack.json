@@ -1,0 +1,404 @@
+{
+    "populate": {
+        "coal-vein": {
+            "distribution": "gaussian",
+            "center-height": 50,
+            "spread": 2,
+            "cluster-count": 1,
+            "chunk-chance": 40,
+            "generator": {
+                "type": "large-vein",
+                "block": "coal_ore",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "cluster-size": 100,
+                "sparse": false
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },  
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "SWAMP"
+					}
+				]
+			}
+        },
+
+        "iron-nickel-gold-vein": {
+            "distribution": "gaussian",
+            "center-height": 50,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 50,
+            "generator": {
+                "type": "large-vein",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": [
+                    {
+                        "name": "iron_ore",
+                        "weight": 80
+                    },
+                    {
+                        "name": "gold_ore",
+                        "weight": 10
+                    },
+                    {
+                        "name": "thermalfoundation:ore",
+                        "metadata": 5,
+                        "weight": 10
+                    }
+                ],
+                "cluster-size": 75,
+                "sparse": false
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },  
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "PLAINS"
+					}
+				]
+			}
+        },
+        "tin-granite": {
+            "distribution": "gaussian",
+            "center-height": 40,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 75,
+            "generator": {
+                "type": "plate",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": [
+                    {
+                        "name": "stone",
+                        "properties": {
+                            "variant": "granite"
+                        },
+                        "weight": 40
+                    },
+                    {
+                        "name": "thermalfoundation:ore",
+                        "metadata": 1,
+                        "weight": 60,
+                        "desc": "tin"
+                    }
+                ],
+                "radius": 7,
+                "height": 1
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },  
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "PLAINS"
+					}
+				]
+			}
+        },
+        "redstone-vein": {
+            "distribution": "gaussian",
+            "center-height": 20,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 50,
+            "generator": {
+                "type": "large-vein",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": "redstone_ore",
+                "cluster-size": 75,
+                "sparse": false
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },  
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "SANDY"
+					}
+				]
+			}
+        },
+        "diamond-vein": {
+            "distribution": "gaussian",
+            "center-height": 20,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 75,
+            "generator": {
+                "type": "large-vein",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": "diamond_ore",
+                "cluster-size": 75,
+                "sparse": false
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },        
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "JUNGLE"
+					}
+				]
+			}
+        },
+
+        "lapis-vein": {
+            "distribution": "gaussian",
+            "center-height": 16,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 75,
+            "generator": {
+                "type": "large-vein",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": "lapis_ore",
+                "cluster-size": 75,
+                "sparse": false
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },        
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "MESA"
+					}
+				]
+			}
+        },
+        "copper-lead-gold-vein": {
+            "distribution": "gaussian",
+            "center-height": 50,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 40,
+            "generator": {
+                "type": "large-vein",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": [
+                    {
+                        "name": "thermalfoundation:ore",
+                        "metadata": 0,
+                        "weight": 45,
+                        "desc": "copper"
+                    },
+                    {
+                        "name": "thermalfoundation:ore",
+                        "metadata": 3,
+                        "weight": 45,
+                        "desc": "lead"
+                    },
+                    {
+                        "name": "gold_ore",
+                        "weight": 10
+                    }
+                ],
+                "cluster-size": 55,
+                "sparse": false
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "FOREST"
+					}
+				]
+			}
+        },
+        "silver-gold-vein": {
+            "distribution": "gaussian",
+            "center-height": 20,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 50,
+            "generator": {
+                "type": "large-vein",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": [
+                    {
+                        "name": "thermalfoundation:ore",
+                        "metadata": 2,
+                        "desc": "silver",
+                        "weight": 60                        
+                    },
+                    {
+                        "name": "gold_ore",
+                        "weight": 40
+                    }
+                ],
+                "cluster-size": 40,
+                "sparse": false
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "MOUNTAIN"
+					}
+				]
+			}
+        },
+        "bauxite-plate": {
+            "distribution": "gaussian",
+            "center-height": 30,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 40,
+            "generator": {
+                "type": "plate",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": [
+                    {
+                        "name": "immersiveengineering:ore",
+                        "metadata": 1,
+                        "weight": 40,
+                        "desc": "aluminum"
+                    },
+                    {
+                        "name": "gravel",
+                        "weight": 60
+                    }
+                ],
+                "radius": 15,
+                "height": 1
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "SNOWY"
+					}
+				]
+			}
+        },
+        "uranium-plate": {
+            "distribution": "gaussian",
+            "center-height": 10,
+            "spread": 5,
+            "cluster-count": 1,
+            "chunk-chance": 25,
+            "generator": {
+                "type": "plate",
+                "material": ["minecraft:stone", "minecraft:air"],
+                "block": [
+                    {
+                        "name": "immersiveengineering:ore",
+                        "metadata": 5,
+                        "weight": 60,
+                        "desc": "uranium"
+                    },
+                    {
+                        "name": "nuclearcraft:ore",
+                        "metadata": 3,
+                        "weight": 10,
+                        "desc": "thorium"
+                    },
+                    {
+                        "name": "nuclearcraft:ore",
+                        "metadata": 5,
+                        "weight": 10,
+                        "desc": "boron"
+                    },
+                    {
+                        "name": "nuclearcraft:ore",
+                        "metadata": 6,
+                        "weight": 10,
+                        "desc": "lithium"
+                    },
+                    {
+                        "name": "nuclearcraft:ore",
+                        "metadata": 7,
+                        "weight": 10,
+                        "desc": "magnesium"
+                    }
+                ],
+                "radius": 7,
+                "height": 1
+            },
+            "dimension": {
+                "restriction": "blacklist",
+                "value": [
+                    -1,
+                    1
+                ]
+            },
+            "biome": {
+				"restriction": "whitelist",
+				"value": [
+					{
+						"type": "dictionary",
+						"entry": "OCEAN"
+					}
+				]
+			}
+        }
+    }
+}
