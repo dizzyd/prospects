@@ -33,8 +33,9 @@ public class OreDictCache {
 					Block b = Block.getBlockFromItem(stack.getItem());
 
 					// Determine the appropriate block state for this ore; the meta is passed in the damage field
-					// on the item stack (?!?!)
-					IBlockState bs = b.getBlockState().getValidStates().get(stack.getItemDamage());
+					// on the item stack. Also ensure that the meta is within bounds of 0..15
+					int meta = stack.getItemDamage() % 15;
+					IBlockState bs = b.getBlockState().getValidStates().get(meta);
 					String normalizedName = normalizeName(name.substring(3));
 					oreNames.put(bs, normalizedName);
 					if (oreParticle != null) {
