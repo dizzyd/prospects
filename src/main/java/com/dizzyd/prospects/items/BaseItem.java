@@ -1,7 +1,7 @@
 package com.dizzyd.prospects.items;
 
 import com.dizzyd.prospects.Prospects;
-import com.dizzyd.prospects.registry.Prospector;
+import com.dizzyd.prospects.world.WorldData;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +27,7 @@ public abstract class BaseItem extends Item {
 		if (shouldProspect(world, pos)) {
 			if (!world.isRemote) {
 				Prospects.logger.debug("Prospects...");
-				Prospector.spawnNugget(world, pos);
+				WorldData.spawnNugget(world, pos);
 			}
 			return EnumActionResult.SUCCESS;
 		}

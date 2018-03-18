@@ -1,7 +1,6 @@
 package com.dizzyd.prospects;
 
-import com.dizzyd.prospects.registry.ProspectingSavedData;
-import com.dizzyd.prospects.registry.Prospector;
+import com.dizzyd.prospects.world.WorldData;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -41,7 +40,7 @@ public class Command extends CommandTreeBase {
 			int cx = sender.getPosition().getX() >> 4;
 			int cz = sender.getPosition().getZ() >> 4;
 			StringBuilder buf = new StringBuilder();
-			ProspectingSavedData.ChunkInfo info = Prospector.getChunkInfo(sender.getEntityWorld(), cx, cz);
+			WorldData.ChunkInfo info = WorldData.getChunkInfo(sender.getEntityWorld(), cx, cz);
 			for (String ore : info.ores.keySet()) {
 				float oreCount = info.ores.get(ore);
 				int nuggetCount = info.nuggets.getOrDefault(ore, 0);

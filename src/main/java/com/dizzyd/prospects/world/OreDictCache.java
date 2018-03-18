@@ -1,4 +1,4 @@
-package com.dizzyd.prospects.registry;
+package com.dizzyd.prospects.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class OreDictCache {
 

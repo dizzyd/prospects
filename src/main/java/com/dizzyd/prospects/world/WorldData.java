@@ -1,8 +1,9 @@
-package com.dizzyd.prospects.registry;
+package com.dizzyd.prospects.world;
 
 import com.dizzyd.prospects.Prospects;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,7 +18,10 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class ProspectingSavedData extends WorldSavedData {
+public class WorldData extends WorldSavedData {
+	private static final String IDENTIFIER = "ProspectWorldData";
+	private static HashMap<Integer, WorldData> DIMENSIONS = new HashMap<Integer, WorldData>();
+
 	private HashMap<Long, ChunkInfo> chunks = new HashMap<>();
 	private World world;
 
@@ -27,7 +31,7 @@ public class ProspectingSavedData extends WorldSavedData {
 		public HashMap<String, Integer> nuggets = new HashMap<>();
 	}
 
-	public ProspectingSavedData(World world, String tag) {
+	public WorldData(World world, String tag) {
 		super(tag);
 		this.world  = world;
 	}
@@ -250,5 +254,46 @@ public class ProspectingSavedData extends WorldSavedData {
 
 	private static int longToCz(long coord) {
 		return (int)coord ;
+	}
+
+	private static WorldData loadAndScan(World world, int cx, int cz) {
+		// First, see if we've already got world-data loaded for this dimension
+		WorldData data = DIMENSIONS.getOrDefault(world.provider.getDimension(), null);
+		if (data == null) {
+			// No world-data available; load or create it
+			data = (WorldData) world.getPerWorldStorage().getOrLoadData(WorldData.class, IDENTIFIER);
+			if (data == null) {
+				// No data was ever available; create one
+				data = new WorldData(world, IDENTIFIER);
+				world.getPerWorldStorage().setData(IDENTIFIER, data);
+			} else {
+				data.setWorld(world);
+			}
+
+			DIMENSIONS.put(world.provider.getDimension(), data);
+		}
+
+		// Finally, scan the requested chunk
+		data.scanChunk(cx, cz);
+		return data;
+	}
+
+	public static void spawnNugget(World world, BlockPos pos) {
+		int cx = pos.getX() >> 4;
+		int cz = pos.getZ() >> 4;
+		WorldData data = loadAndScan(world, cx, cz);
+
+		ItemStack nugget = data.getNugget(cx, cz);
+		if (nugget != null) {
+			world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY() + 1, pos.getZ(), nugget));
+		}
+	}
+
+	public static HashMap<String, Float> getOres(World world, int cx, int cz) {
+		return loadAndScan(world, cx, cz).getOreCounts(cx, cz);
+	}
+
+	public static WorldData.ChunkInfo getChunkInfo(World world, int cx, int cz) {
+		return loadAndScan(world, cx, cz).getChunkInfo(cx, cz);
 	}
 }

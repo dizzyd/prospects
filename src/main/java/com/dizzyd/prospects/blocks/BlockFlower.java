@@ -1,7 +1,7 @@
 package com.dizzyd.prospects.blocks;
 
 import com.dizzyd.prospects.Prospects;
-import com.dizzyd.prospects.registry.Prospector;
+import com.dizzyd.prospects.world.WorldGen;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -128,7 +128,7 @@ public class BlockFlower extends BlockBush {
 		static {
 			for (EnumType t : values()) {
 				META_LOOKUP[t.meta] = t;
-				Prospector.registerFlower(t.getOre(), t);
+				WorldGen.registerFlower(t.getOre(), t);
 			}
 		}
 	}

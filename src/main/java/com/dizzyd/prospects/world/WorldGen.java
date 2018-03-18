@@ -1,7 +1,7 @@
-package com.dizzyd.prospects;
+package com.dizzyd.prospects.world;
 
+import com.dizzyd.prospects.Prospects;
 import com.dizzyd.prospects.blocks.BlockFlower;
-import com.dizzyd.prospects.registry.Prospector;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -15,6 +15,14 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldGen implements IWorldGenerator {
+
+	private static HashMap<String, BlockFlower.EnumType> FLOWERS = new HashMap<String, BlockFlower.EnumType>();
+	private static Object[] FLOWERS_ARRAY;
+
+	public static void registerFlower(String ore, BlockFlower.EnumType flowerType) {
+		FLOWERS.put(OreDictCache.normalizeName(ore), flowerType);
+		FLOWERS_ARRAY = FLOWERS.values().toArray();
+	}
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (world.provider.getDimension() != 0) {
@@ -25,10 +33,10 @@ public class WorldGen implements IWorldGenerator {
 		boolean placedFlowers = false;
 
 		// Get a ores and their counts for this chunk
-		HashMap<String, Float> ores = Prospector.getOres(world, chunkX, chunkZ);
+		HashMap<String, Float> ores = WorldData.getOres(world, chunkX, chunkZ);
 		for (String ore : ores.keySet()) {
 			// If there is a flower block associated with the ore, try to place a flower
-			flowerType = Prospector.getFlowerBlock(ore);
+			flowerType = FLOWERS.get(ore);
 			if (flowerType != null) {
 				for (int i = 0; i < getFlowerCount(ores.get(ore)); i++) {
 					if (random.nextFloat() > Prospects.config.flower_chance) {
@@ -44,7 +52,7 @@ public class WorldGen implements IWorldGenerator {
 
 		// If no legitimate flowers were placed on this chunk, maybe place some false flowers
 		if (!placedFlowers && ThreadLocalRandom.current().nextFloat() <= Prospects.config.flower_false_chance) {
-			flowerType = Prospector.getRandomFlowerBlock();
+			flowerType = (BlockFlower.EnumType)FLOWERS_ARRAY[ThreadLocalRandom.current().nextInt(0, FLOWERS_ARRAY.length)];
 			if (flowerType != null) {
 				for (int j = 0; j < ThreadLocalRandom.current().nextInt(5) + 1; j++) {
 					if (random.nextFloat() > Prospects.config.flower_chance) {
