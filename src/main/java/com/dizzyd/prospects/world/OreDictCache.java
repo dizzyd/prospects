@@ -1,6 +1,9 @@
 package com.dizzyd.prospects.world;
 
+import com.dizzyd.prospects.Prospects;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -34,7 +37,12 @@ public class OreDictCache {
 
 					// Determine the appropriate block state for this ore; the meta is passed in the damage field
 					// on the item stack. Also ensure that the meta is within bounds of 0..15
-					int meta = stack.getItemDamage() % 15;
+					int meta = stack.getItemDamage();
+					ImmutableList<IBlockState> states = b.getBlockState().getValidStates();
+					if (meta >= states.size()) {
+						Prospects.logger.warn("Unexpected meta " + meta + " when processing ore " + name);
+						meta = 0;
+					}
 					IBlockState bs = b.getBlockState().getValidStates().get(meta);
 					String normalizedName = normalizeName(name.substring(3));
 					oreNames.put(bs, normalizedName);
