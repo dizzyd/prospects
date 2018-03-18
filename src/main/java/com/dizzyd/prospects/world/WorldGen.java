@@ -45,7 +45,7 @@ public class WorldGen implements IWorldGenerator {
 
 					int x = (chunkX << 4)+ random.nextInt(15);
 					int z = (chunkZ << 4) + random.nextInt(15);
-					placedFlowers &= placeFlower(world, new BlockPos(x, 64, z), flowerType);
+					placedFlowers &= BlockFlower.INSTANCE.placeFlower(world, x, z, flowerType);
 				}
 			}
 		}
@@ -61,27 +61,10 @@ public class WorldGen implements IWorldGenerator {
 
 					int x = (chunkX << 4) + random.nextInt(15);
 					int z = (chunkZ << 4) + random.nextInt(15);
-					placeFlower(world, new BlockPos(x, 64, z), flowerType);
+					BlockFlower.INSTANCE.placeFlower(world, x, z, flowerType);
 				}
 			}
 		}
-	}
-
-	private boolean placeFlower(World world, BlockPos pos, BlockFlower.EnumType flowerType) {
-		// Find the top-most block pos
-		BlockPos topPos = world.getTopSolidOrLiquidBlock(pos);
-		if (topPos.getY() == -1) {
-			return false;
-		}
-
-		Block surface = world.getBlockState(topPos.down(1)).getBlock();
-		Block top = world.getBlockState(topPos).getBlock();
-		if ((surface == Blocks.GRASS || surface == Blocks.DIRT) && top == Blocks.AIR) {
-			BlockFlower.INSTANCE.placeAt(world, topPos, flowerType);
-			return true;
-		}
-
-		return false;
 	}
 
 	private int getFlowerCount(Float oreAmt) {

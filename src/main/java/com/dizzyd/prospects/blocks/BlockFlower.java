@@ -2,6 +2,7 @@ package com.dizzyd.prospects.blocks;
 
 import com.dizzyd.prospects.Prospects;
 import com.dizzyd.prospects.world.WorldGen;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -11,6 +12,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.item.ItemStack;
@@ -39,8 +41,26 @@ public class BlockFlower extends BlockBush {
 		this.setRegistryName(Prospects.MODID, "flower");
 	}
 
-	public void placeAt(World world, BlockPos pos, EnumType flowerType) {
-		world.setBlockState(pos, this.getDefaultState().withProperty(TYPE, flowerType));
+	public boolean placeFlower(World world, int x, int z, EnumType flowerType) {
+		// Find the top-most block pos
+		BlockPos topPos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 64, z));
+		if (topPos.getY() == -1) {
+			return false;
+		}
+
+		// If the surface can sustain this plant, go ahead and plant it
+		IBlockState surface = world.getBlockState(topPos.down(1));
+		if (canSustainBush(surface)) {
+			world.setBlockState(topPos, this.getDefaultState().withProperty(TYPE, flowerType));
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	protected boolean canSustainBush(IBlockState state) {
+		return super.canSustainBush(state) || state.getBlock() == Blocks.SAND;
 	}
 
 	@Override
