@@ -94,6 +94,11 @@ public class BlockFlower extends BlockBush {
 		}
 	}
 
+	@Override
+	public int damageDropped(IBlockState state) {
+		return state.getValue(TYPE).getMeta();
+	}
+
 	public void registerItems(IForgeRegistry<Item> registry) {
 		Item item = new ItemMultiTexture(BlockFlower.INSTANCE, BlockFlower.INSTANCE,
 				stack -> EnumType.byMetadata(stack.getMetadata()).getName())
