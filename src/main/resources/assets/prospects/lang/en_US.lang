@@ -14,8 +14,8 @@ tile.prospects.flower.poorjoe.name=Poorjoe (Iron)
 tile.prospects.flower.primrose.name=Primrose (Uranium)
 tile.prospects.flower.shrub_violet.name=Shrub Violet (Nickel)
 tile.prospects.flower.vallozia.name=Vallozia (Diamond)
-tile.prospects.flower.flame_lily.name=Flame Lily
-tile.prospects.flower.tansy.name=Tansy
+tile.prospects.flower.flame_lily.name=Flame Lily (Redstone)
+tile.prospects.flower.tansy.name=Tansy (Tin)
 
 cmd.prospects.usage=
 cmd.prospects.oreinfo=Ores in [%d, %d]:%s
