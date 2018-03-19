@@ -43,7 +43,7 @@ public class OreDictCache {
 						Prospects.logger.warn("Unexpected meta " + meta + " when processing ore " + name);
 						meta = 0;
 					}
-					IBlockState bs = b.getBlockState().getValidStates().get(meta);
+					IBlockState bs = states.get(meta);
 					String normalizedName = normalizeName(name.substring(3));
 					oreNames.put(bs, normalizedName);
 					if (oreParticle != null) {
@@ -57,7 +57,6 @@ public class OreDictCache {
 	public static String getOreName(IBlockState bs) {
 		return oreNames.get(bs);
 	}
-
 
 	public static ItemStack getParticle(String name) {
 		return oreParticles.get(name);
