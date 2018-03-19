@@ -1,0 +1,16 @@
+[
+{
+  "modid": "prospects",
+  "name": "Prospects",
+  "description": "Immersive prospecting and ore vein discovery",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://minecraft.curseforge.com/projects/prospects",
+  "updateUrl": "",
+  "authorList": ["dizzydizzyd"],
+  "credits": "Azathoth for original 1.7 Prospecting mod",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
