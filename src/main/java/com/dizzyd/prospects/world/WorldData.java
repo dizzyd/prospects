@@ -31,6 +31,10 @@ public class WorldData extends WorldSavedData {
 		public HashMap<String, Integer> nuggets = new HashMap<>();
 	}
 
+	public WorldData(String tag) {
+		super(tag);
+	}
+
 	public WorldData(World world, String tag) {
 		super(tag);
 		this.world  = world;
