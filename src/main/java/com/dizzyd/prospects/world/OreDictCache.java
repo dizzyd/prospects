@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.HashMap;
@@ -25,9 +26,9 @@ public class OreDictCache {
 				String dustId = "dust" + name.substring(3);
 				ItemStack oreParticle = null;
 				if (OreDictionary.doesOreNameExist(nuggetId)) {
-					oreParticle = OreDictionary.getOres(nuggetId).get(0);
+					oreParticle = getOres(nuggetId);
 				} else if (OreDictionary.doesOreNameExist(dustId)) {
-					oreParticle = OreDictionary.getOres(dustId).get(0);
+					oreParticle = getOres(nuggetId);
 				}
 
 				// For each of the ores associated with this ore dictionary entry, we want try and convert back
@@ -69,5 +70,14 @@ public class OreDictCache {
 			return "Nickel";
 		}
 		return name;
+	}
+
+	public static ItemStack getOres(String id) {
+		NonNullList<ItemStack> s = OreDictionary.getOres(id);
+		if (s.isEmpty()) {
+			return null;
+		} else {
+			return s.get(0);
+		}
 	}
 }
