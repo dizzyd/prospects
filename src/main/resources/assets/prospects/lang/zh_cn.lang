@@ -1,0 +1,27 @@
+item.prospects.pan.name=淘金盘
+item.prospects.pick.name=聚宝镐
+item.prospects.sifter.name=筛网
+
+tile.prospects.flower.affine.name=阿芙林 (铝)
+tile.prospects.flower.camellia.name=山茶花 (萤石)
+tile.prospects.flower.clover.name=苜蓿 (锌)
+tile.prospects.flower.hauman.name=豪尔曼 (铜)
+tile.prospects.flower.horsetail.name=大麻黄 (金)
+tile.prospects.flower.leadplant.name=紫穗槐 (铅)
+tile.prospects.flower.malva.name=锦葵 (镉)
+tile.prospects.flower.mustard.name=芥末 (银)
+tile.prospects.flower.poorjoe.name=波尔乔 (铁)
+tile.prospects.flower.primrose.name=报春花 (铀)
+tile.prospects.flower.shrub_violet.name=紫罗兰 (镍)
+tile.prospects.flower.vallozia.name=瓦罗西亚 (钻石)
+tile.prospects.flower.flame_lily.name=烈焰百合 (红石)
+tile.prospects.flower.tansy.name=艾菊 (锡)
+
+cmd.prospects.usage=
+cmd.prospects.oreinfo=[%d, %d]中的矿物数量为:%s
+cmd.prospects.oreinfo.usage=显示当前区块中的矿物和粒
+
+cmd.prospects.showconfig=配置:%s
+
+cmd.prospects.reloadconfig.ok=配置被重载
+cmd.prospects.reloadconfig.error=配置重载失败: %s
