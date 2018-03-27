@@ -25,7 +25,8 @@ public class WorldGen implements IWorldGenerator {
 	}
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if (world.provider.getDimension() != 0) {
+		// If the dimension is not in our whitelist, skip generation in it
+		if (!Prospects.config.dimension_whitelist.contains(world.provider.getDimension())) {
 			return;
 		}
 

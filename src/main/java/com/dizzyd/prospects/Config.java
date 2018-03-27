@@ -4,6 +4,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
+import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Config {
 
@@ -14,6 +17,7 @@ public class Config {
 	public float flower_false_chance;
 	public int ore_per_flower;
 	public int max_flowers;
+	public Set<Integer> dimension_whitelist = new HashSet<>();
 
 	private File configFile;
 	private Configuration configRoot;
@@ -30,6 +34,14 @@ public class Config {
 		chunk_expiry = configRoot.getInt("Chunk Expiry", "Core",
 				7200, 0, 72000,
 		"The number of seconds before resetting the nuggets in a chunk; 3 Minecraft days by default");
+
+		// Load the dimension white list into a set; we can't use a bitset here
+		// since there may be negative numbers
+		int[] dimensions = configRoot.get("Core", "Dimension Whitelist", new int[]{0},
+				"List of dimensions in which ore flowers can spawn").getIntList();
+		for (int d : dimensions) {
+			dimension_whitelist.add(d);
+		}
 
 		ore_per_nugget = configRoot.getInt("Ore Per Nugget", "Probabilities",
 				50, 0, 4096,
