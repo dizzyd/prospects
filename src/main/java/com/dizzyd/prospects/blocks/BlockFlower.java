@@ -50,7 +50,7 @@ public class BlockFlower extends BlockBush {
 
 		// If the surface can sustain this plant, go ahead and plant it
 		IBlockState surface = world.getBlockState(topPos.down(1));
-		if (canSustainBush(surface)) {
+		if (world.isAirBlock(topPos) && canSustainBush(surface)) {
 			world.setBlockState(topPos, this.getDefaultState().withProperty(TYPE, flowerType));
 			return true;
 		}
