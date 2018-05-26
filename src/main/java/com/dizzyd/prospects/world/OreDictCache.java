@@ -18,7 +18,7 @@ public class OreDictCache {
 	private static HashMap<IBlockState, String> oreNames = new HashMap<>();
 
 	private static String[] knownOres =
-		new String[]{"Iron", "Gold", "Copper", "Lead", "Silver", "Uranium", "Nickel", "Ferrous", "Diamond", "Redstone", "Tin", "Aluminum", "Bauxite"};
+		new String[]{"Coal", "Iron", "Gold", "Copper", "Lead", "Silver", "Uranium", "Nickel", "Ferrous", "Diamond", "Redstone", "Tin", "Aluminum", "Bauxite"};
 
 	public static void init() {
 		// Special check for Geolosys in OreDict; we can't use the item->block transformation with this mod

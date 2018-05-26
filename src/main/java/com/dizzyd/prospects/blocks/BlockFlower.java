@@ -109,7 +109,7 @@ public class BlockFlower extends BlockBush {
 
 	public static enum EnumType implements IStringSerializable {
 		AFFINE(0, "affine", "Aluminum"),
-		CAMELLIA(1, "camellia", "Florite"),
+		CAMELLIA(1, "camellia", "Coal"),
 		CLOVER(2, "clover", "Zinc"),
 		HAUMAN(3, "hauman", "Copper"),
 		HORSETAIL(4, "horsetail", "Gold"),
