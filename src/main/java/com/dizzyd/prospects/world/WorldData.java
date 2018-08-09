@@ -86,9 +86,7 @@ public class WorldData extends WorldSavedData {
 			chunkData.setInteger("cx", cx);
 			chunkData.setInteger("cz", cz);
 			chunkData.setLong("expiry", chunk.expiry);
-
-			Prospects.logger.debug("Writing chunk: " + cx + "," + cz);
-
+			
 			NBTTagCompound oreData = new NBTTagCompound();
 			for (Map.Entry<String, Float> ores : chunk.ores.entrySet()) {
 				oreData.setFloat(ores.getKey(), ores.getValue());
