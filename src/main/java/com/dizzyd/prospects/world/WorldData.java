@@ -154,7 +154,7 @@ public class WorldData extends WorldSavedData {
 						b = bs.getBlock();
 
 						// Fast-path on common blocks
-						if (b == Blocks.AIR || b == Blocks.STONE || b == Blocks.DIRT || b == Blocks.GRAVEL) {
+						if (b == Blocks.AIR || b == Blocks.STONE || b == Blocks.DIRT || b == Blocks.GRAVEL || b == Blocks.SAND || b == Blocks.GRASS || b == Blocks.WATER) {
 							continue;
 						}
 
