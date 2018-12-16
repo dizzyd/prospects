@@ -130,6 +130,9 @@ public class WorldData extends WorldSavedData {
 		return false;
 	}
 
+	private static long totalElapsedTime;
+	private static long totalScannedChunks;
+
 	public void scanChunk(int cx, int cz) {
 		IBlockState bs;
 		Block b;
@@ -140,6 +143,7 @@ public class WorldData extends WorldSavedData {
 		if (isStale(cx, cz)) {
 			// Create a new chunk info object
 			ChunkInfo cinfo = new ChunkInfo();
+			double startTime = System.nanoTime();
 
 			Prospects.logger.debug("Scanning chunk [" + cx + ", " + cz + "]...");
 			for (int i = 1; i <= 256; i++) {
@@ -166,8 +170,10 @@ public class WorldData extends WorldSavedData {
 				}
 			}
 
-			Prospects.logger.debug("Total blocks scanned: " + total);
-			Prospects.logger.debug("Ore types found: " + cinfo.ores.size());
+			double elapsedTime = (System.nanoTime() - startTime) / 1000;
+			totalElapsedTime += elapsedTime;
+			totalScannedChunks++;
+			Prospects.logger.debug("[{}, {}] {} blocks scanned in {} us (avg {} us); {} ore types found.", cx, cz, total, elapsedTime, (totalElapsedTime/totalScannedChunks), cinfo.ores.size());
 
 			cinfo.expiry = world.getWorldTime() + Prospects.config.chunk_expiry;
 
@@ -297,5 +303,9 @@ public class WorldData extends WorldSavedData {
 
 	public static WorldData.ChunkInfo getChunkInfo(World world, int cx, int cz) {
 		return loadAndScan(world, cx, cz).getChunkInfo(cx, cz);
+	}
+
+	public static long getAvgChunkScanTime() {
+		return totalElapsedTime / totalScannedChunks;
 	}
 }

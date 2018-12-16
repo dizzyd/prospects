@@ -39,6 +39,7 @@ public class Command extends CommandTreeBase {
 		addSubcommand(new CommandOreInfo());
 		addSubcommand(new CommandShowConfig());
 		addSubcommand(new CommandReloadConfig());
+		addSubcommand(new CommandScanTime());
 		addSubcommand(new CommandClearBlocks());
 	}
 
@@ -111,6 +112,25 @@ public class Command extends CommandTreeBase {
 			Command.notifyCommandListener(sender, this, "cmd.prospects.reloadconfig.ok");
 		}
 	}
+
+	public static class CommandScanTime extends CommandBase {
+		@Override
+		public String getName() {
+			return "scantime";
+		}
+
+		@Override
+		public String getUsage(ICommandSender sender) {
+			return "cmd.prospects.scantime.usage";
+		}
+
+		@Override
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+			Prospects.config.reload();
+			Command.notifyCommandListener(sender, this, "cmd.prospects.scantime.ok", WorldData.getAvgChunkScanTime());
+		}
+	}
+
 
 	public static class CommandClearBlocks extends CommandBase {
 		@Override

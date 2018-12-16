@@ -27,3 +27,4 @@ cmd.prospects.reloadconfig.ok=Configuration reloaded.
 cmd.prospects.reloadconfig.error=Configuration reload failed: %s
 
 cmd.prospects.clear.ok=Cleared %d blocks
+cmd.prospects.scantime.ok=Avg chunk scan time: %d us
