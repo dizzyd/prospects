@@ -1,9 +1,9 @@
 
 all:
-	gradle build
+	./gradlew build
 
 setup:
-	gradle setupDecompWorkspace idea
+	./gradlew setupDecompWorkspace idea
 
 clean:	
 	rm -rf build .gradle .idea run out *.iml *.ipr *.iws
