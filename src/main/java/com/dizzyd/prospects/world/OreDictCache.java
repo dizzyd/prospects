@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class OreDictCache {
 
 	private static HashMap<String, ItemStack> oreParticles = new HashMap<>();
-	private static HashMap<IBlockState, String> oreNames = new HashMap<>();
+	private static HashMap<Integer, String> oreNames = new HashMap<>();
 
 	private static String[] knownOres =
 		new String[]{"Coal", "Iron", "Gold", "Copper", "Lead", "Silver", "Uranium", "Nickel", "Ferrous", "Diamond", "Redstone", "Tin", "Aluminum", "Bauxite"};
@@ -68,7 +68,7 @@ public class OreDictCache {
 				}
 				IBlockState bs = states.get(meta);
 				String normalizedName = normalizeName(base);
-				oreNames.put(bs, normalizedName);
+				oreNames.put(Block.getStateId(bs), normalizedName);
 				if (oreParticle != null) {
 					oreParticles.put(normalizedName, oreParticle);
 				}
@@ -76,7 +76,7 @@ public class OreDictCache {
 	}
 
 	public static String getOreName(IBlockState bs) {
-		return oreNames.get(bs);
+		return oreNames.get(Block.getStateId(bs));
 	}
 
 	public static ItemStack getParticle(String name) {
@@ -102,22 +102,22 @@ public class OreDictCache {
 	}
 
 	private static void initGeolosysOres() {
-		oreNames.put(getBlockState("geolosys:ore_vanilla", 1), "Redstone"); // Cinnabar
-		oreNames.put(getBlockState("geolosys:ore_vanilla", 2), "Gold"); // Gold
-		oreNames.put(getBlockState("geolosys:ore_vanilla", 5), "Diamond"); // Kimberlite
-		oreNames.put(getBlockState("geolosys:ore", 0), "Iron"); // Hematite
-		oreNames.put(getBlockState("geolosys:ore", 1), "Nickel"); // Limonite
-		oreNames.put(getBlockState("geolosys:ore", 2), "Copper"); // Malachite
-		oreNames.put(getBlockState("geolosys:ore", 3), "Copper"); // Azurite
-		oreNames.put(getBlockState("geolosys:ore", 4), "Tin"); // Cassiterite
-		oreNames.put(getBlockState("geolosys:ore", 5), "Tin"); // Teallite
-		oreNames.put(getBlockState("geolosys:ore", 6), "Silver"); // Galena
-		oreNames.put(getBlockState("geolosys:ore", 6), "Lead"); // Galena
-		oreNames.put(getBlockState("geolosys:ore", 7), "Aluminum"); // Bauxite
-		oreNames.put(getBlockState("geolosys:ore", 9), "Uranium"); // Autunite
+		oreNames.put(getStateId("geolosys:ore_vanilla", 1), "Redstone"); // Cinnabar
+		oreNames.put(getStateId("geolosys:ore_vanilla", 2), "Gold"); // Gold
+		oreNames.put(getStateId("geolosys:ore_vanilla", 5), "Diamond"); // Kimberlite
+		oreNames.put(getStateId("geolosys:ore", 0), "Iron"); // Hematite
+		oreNames.put(getStateId("geolosys:ore", 1), "Nickel"); // Limonite
+		oreNames.put(getStateId("geolosys:ore", 2), "Copper"); // Malachite
+		oreNames.put(getStateId("geolosys:ore", 3), "Copper"); // Azurite
+		oreNames.put(getStateId("geolosys:ore", 4), "Tin"); // Cassiterite
+		oreNames.put(getStateId("geolosys:ore", 5), "Tin"); // Teallite
+		oreNames.put(getStateId("geolosys:ore", 6), "Silver"); // Galena
+		oreNames.put(getStateId("geolosys:ore", 6), "Lead"); // Galena
+		oreNames.put(getStateId("geolosys:ore", 7), "Aluminum"); // Bauxite
+		oreNames.put(getStateId("geolosys:ore", 9), "Uranium"); // Autunite
 	}
 
-	private static IBlockState getBlockState(String name, int meta) {
-		return Block.getBlockFromName(name).getStateFromMeta(meta);
+	private static int getStateId(String name, int meta) {
+		return Block.getStateId(Block.getBlockFromName(name).getStateFromMeta(meta));
 	}
 }
