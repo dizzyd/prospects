@@ -24,7 +24,7 @@ public class OreDictCache {
 		// Special check for Geolosys in OreDict; we can't use the item->block transformation with this mod
 		// because it uses an abstraction of BlockStates->ore drops. Thus, I had to manually code the block/metas
 		// in.
-		if (OreDictionary.doesOreNameExist("geolosysOreIron")) {
+		if (OreDictionary.doesOreNameExist("oreBlockHematite")) {
 			initGeolosysOres();
 		}
 
