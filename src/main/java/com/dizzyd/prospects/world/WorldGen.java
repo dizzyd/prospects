@@ -2,9 +2,6 @@ package com.dizzyd.prospects.world;
 
 import com.dizzyd.prospects.Prospects;
 import com.dizzyd.prospects.blocks.BlockFlower;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
@@ -32,6 +29,8 @@ public class WorldGen implements IWorldGenerator {
 
 		BlockFlower.EnumType flowerType;
 		boolean placedFlowers = false;
+		int xStart = chunkX << 4;
+		int zStart = chunkZ << 4;
 
 		// Get a ores and their counts for this chunk
 		HashMap<String, Float> ores = WorldData.getOres(world, chunkX, chunkZ);
@@ -44,9 +43,9 @@ public class WorldGen implements IWorldGenerator {
 						continue;
 					}
 
-					int x = (chunkX << 4)+ random.nextInt(15);
-					int z = (chunkZ << 4) + random.nextInt(15);
-					placedFlowers &= BlockFlower.INSTANCE.placeFlower(world, x, z, flowerType);
+					int x = xStart + random.nextInt(15);
+					int z = zStart + random.nextInt(15);
+					placedFlowers |= BlockFlower.INSTANCE.placeFlower(world, x, z, flowerType);
 				}
 			}
 		}
@@ -60,8 +59,8 @@ public class WorldGen implements IWorldGenerator {
 						continue;
 					}
 
-					int x = (chunkX << 4) + random.nextInt(15);
-					int z = (chunkZ << 4) + random.nextInt(15);
+					int x = xStart + random.nextInt(15);
+					int z = zStart + random.nextInt(15);
 					BlockFlower.INSTANCE.placeFlower(world, x, z, flowerType);
 				}
 			}
