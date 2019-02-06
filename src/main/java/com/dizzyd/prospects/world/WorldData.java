@@ -20,7 +20,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class WorldData extends WorldSavedData {
 	private static final String IDENTIFIER = "ProspectWorldData";
-	private static HashMap<Integer, WorldData> DIMENSIONS = new HashMap<Integer, WorldData>();
 
 	private HashMap<Long, ChunkInfo> chunks = new HashMap<>();
 	private World world;
@@ -265,20 +264,14 @@ public class WorldData extends WorldSavedData {
 	}
 
 	private static WorldData loadAndScan(World world, int cx, int cz) {
-		// First, see if we've already got world-data loaded for this dimension
-		WorldData data = DIMENSIONS.getOrDefault(world.provider.getDimension(), null);
+		// No world-data available; load or create it
+		WorldData data = (WorldData) world.getPerWorldStorage().getOrLoadData(WorldData.class, IDENTIFIER);
 		if (data == null) {
-			// No world-data available; load or create it
-			data = (WorldData) world.getPerWorldStorage().getOrLoadData(WorldData.class, IDENTIFIER);
-			if (data == null) {
-				// No data was ever available; create one
-				data = new WorldData(world, IDENTIFIER);
-				world.getPerWorldStorage().setData(IDENTIFIER, data);
-			} else {
-				data.setWorld(world);
-			}
-
-			DIMENSIONS.put(world.provider.getDimension(), data);
+			// No data was ever available; create one
+			data = new WorldData(world, IDENTIFIER);
+			world.getPerWorldStorage().setData(IDENTIFIER, data);
+		} else {
+			data.setWorld(world);
 		}
 
 		// Finally, scan the requested chunk
