@@ -20,6 +20,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,19 +43,44 @@ public class BlockFlower extends BlockBush {
 	}
 
 	public boolean placeFlower(World world, int x, int z, EnumType flowerType) {
-		// Find the top-most block pos
-		BlockPos topPos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 64, z));
-		if (topPos.getY() == -1) {
+		// Find the block position just above the surface
+		BlockPos destPos = findSurfacePlus1(world, x, z);
+		if (destPos.getY() < 1) {
 			return false;
 		}
 
 		// If the surface can sustain this plant, go ahead and plant it
-		IBlockState surface = world.getBlockState(topPos.down(1));
-		if (world.isAirBlock(topPos) && canSustainBush(surface)) {
-			return world.setBlockState(topPos, this.getDefaultState().withProperty(TYPE, flowerType), 2 | 16);
+		IBlockState dest = world.getBlockState(destPos);
+		IBlockState surface = world.getBlockState(destPos.down());
+		if (!dest.getMaterial().isLiquid() && dest.getMaterial().isReplaceable() && canSustainBush(surface)) {
+			return world.setBlockState(destPos, this.getDefaultState().withProperty(TYPE, flowerType), 2 | 16);
 		}
 
 		return false;
+	}
+
+	// Alternative to getTopSolidOrLiquidBlock; we need to make sure to check for both grass and wood/branches. Using
+	// mods like DynamicTrees, for example, causes getTSOLB to return well above the ground and thus dramatically
+	// reduces number of flowers that are able to be placed in wooded areas.
+	private BlockPos findSurfacePlus1(World world, int x, int z) {
+		Chunk chunk = world.getChunkFromChunkCoords(x >> 4, z >> 4);
+		BlockPos pos = new BlockPos(x, chunk.getTopFilledSegment() + 16, z);
+
+		BlockPos nextPos;
+		for (; pos.getY() >= 0; pos = nextPos) {
+			nextPos = pos.down();
+			IBlockState bs = chunk.getBlockState(nextPos);
+			Block b = bs.getBlock();
+			if (bs.getMaterial().isSolid() &&
+					!bs.getMaterial().isReplaceable() &&
+					!b.isLeaves(bs, world, nextPos) &&
+					!b.isFoliage(world, nextPos) &&
+					!b.isWood(world, nextPos)) {
+				break;
+			}
+		}
+
+		return pos;
 	}
 
 	@Override
