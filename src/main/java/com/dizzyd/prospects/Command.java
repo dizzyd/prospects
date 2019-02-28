@@ -1,6 +1,7 @@
 package com.dizzyd.prospects;
 
 import com.dizzyd.prospects.world.WorldData;
+import com.dizzyd.prospects.world.WorldGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandBase;
@@ -20,6 +21,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.server.command.CommandTreeBase;
 
+import java.util.DoubleSummaryStatistics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +43,7 @@ public class Command extends CommandTreeBase {
 		addSubcommand(new CommandReloadConfig());
 		addSubcommand(new CommandScanTime());
 		addSubcommand(new CommandClearBlocks());
+		addSubcommand(new CommandPlacementStats());
 	}
 
 	public static class CommandOreInfo extends CommandBase {
@@ -186,6 +189,28 @@ public class Command extends CommandTreeBase {
 			}
 
 			Command.notifyCommandListener(sender, this, "cmd.prospects.clear.ok", count);
+		}
+	}
+
+	public static class CommandPlacementStats extends CommandBase {
+
+		@Override
+		public String getName() {
+			return "placement.stats";
+		}
+
+		@Override
+		public String getUsage(ICommandSender sender) {
+			return "cmd.prospects.placement.stats.usage";
+		}
+
+		@Override
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+			DoubleSummaryStatistics stats = WorldGen.getStats();
+			String avg = String.format("%1.0f", stats.getAverage() * 100);
+			String expected = String.format("%1.0f", Prospects.config.flower_chance * 100);
+			Command.notifyCommandListener(sender, this, "cmd.prospects.placement.stats",
+					avg, stats.getCount(), expected);
 		}
 	}
 }
