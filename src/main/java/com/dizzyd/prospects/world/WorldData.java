@@ -14,6 +14,7 @@ import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -296,6 +297,27 @@ public class WorldData extends WorldSavedData {
 
 	public static WorldData.ChunkInfo getChunkInfo(World world, int cx, int cz) {
 		return loadAndScan(world, cx, cz).getChunkInfo(cx, cz);
+	}
+
+	public static void reconcileMissingChunks(World world) {
+		// Load world data if it's available
+		WorldData data = (WorldData) world.getPerWorldStorage().getOrLoadData(WorldData.class, IDENTIFIER);
+		if (data != null) {
+			Prospects.logger.info("Scanning for missing chunks in dimension {}", world.provider.getDimension());
+			// World data is available; scan all our known chunks and see if any are missing and remove them from
+			// our system
+			int count = data.chunks.size();
+			data.chunks.keySet().removeIf(chunkId ->
+				!world.isChunkGeneratedAt(longToCx(chunkId), longToCz(chunkId))
+			);
+
+			int finalCount = data.chunks.size();
+			if (count != finalCount) {
+				Prospects.logger.info("Cleaned up {} missing chunks in dimension {}", count - finalCount,
+						world.provider.getDimension());
+				data.markDirty();
+			}
+		}
 	}
 
 	public static long getAvgChunkScanTime() {
